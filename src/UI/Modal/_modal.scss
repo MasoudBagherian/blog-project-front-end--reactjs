@@ -1,0 +1,18 @@
+.modal{
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 50%;
+  transform: translate3d(-50%, -100%, 0);
+  max-width: 50rem;
+  width: 80%;
+  max-height: 90%;
+  overflow-y: auto;
+  border-radius: 5px;
+  transition: .3s;
+  &.show{
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+
+  }
+}
