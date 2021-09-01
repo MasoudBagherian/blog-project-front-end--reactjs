@@ -1,0 +1,32 @@
+.btn-primary {
+  background-color: $color-primary;
+}
+.btn-secondary {
+  background-color: $color-success;
+}
+.btn-tritiary {
+  background-color: $color-warning;
+}
+.btn-danger {
+  background-color: $color-tritiary;
+}
+.add-btn {
+  position: fixed;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: $color-tritiary;
+  color: #fff;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+// .add-btn::before {
+//   content: '\f067';
+//   font-family: 'fontAwesome';
+//   font-size: 2.4rem;
+//   color: #fff;
+// }

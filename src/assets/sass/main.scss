@@ -1,0 +1,19 @@
+// extensions
+@import './extensions/variables';
+// vendor
+
+//base
+@import './base/reset';
+@import './base/containers';
+@import './base/typography';
+//components
+@import '../../UI/icons/icons';
+@import '../../pages/Intro/intro';
+
+@import '../../components/forms/form';
+@import './components/buttons';
+@import './../../components/forms/FormImage/form-image';
+@import './../../UI/Modal/modal';
+@import './../../UI/Backdrop/backdrop';
+@import '../../components/forms/ImageAlert/image-alert';
+//layout
