@@ -1,0 +1,131 @@
+.form{
+  width: 90%;
+  margin: 5rem auto;
+  max-width: 60rem;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2), 0 -1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  &__body{
+    background-color: #fff;
+    padding: 4rem 4rem 2rem 4rem;
+  }
+  &__heading{
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+  &__group{
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+  &__input-wrapper{
+    box-sizing: content-box;
+    height: $input-height;
+    position: relative;
+    border: 2px solid lighten($color-text-secondary, 30%);
+    border-radius: 5px;
+    transition: .2s;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .8);
+    &.active .form__label,
+    &.error .form__label{
+      top: 0;
+      font-size: 1.2rem;
+    }
+    &.active .form__label{
+      color: $color-primary;
+    }
+    &.error .form__label{
+      color: $color-tritiary;
+    }
+    &.active{
+      border-color: $color-primary;
+      box-shadow: 0 0 0 rgba(0, 0, 0, .8);
+    }
+    &.error{
+      border-color: $color-tritiary;
+      box-shadow: 0 0 0 rgba(0, 0, 0, .8);
+
+    }
+  }
+  &__label{
+    position: absolute;
+    color: lighten($color-text-secondary, 20%);
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    box-sizing: border-box;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    left: 1rem;
+    transition: .3s;
+    background-color: #fff;
+    padding: 4px;
+    pointer-events: none;
+    
+  }
+  &__input{
+    border-radius: 5px;
+    width: 100%;
+    height: $input-height;
+    border: none;
+    padding: 0 1rem;
+    font: inherit;
+    transition: .2s;
+    box-sizing: border-box;
+    &:focus{
+      outline: none;
+    }
+  }
+  &__alert{
+    color: $color-tritiary;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+  }
+  &__footer{
+    background-color: $color-footer-bg;
+      padding: 2rem 4rem;
+  }
+  &__message{
+    margin-bottom: 2rem;
+
+  }
+  &__btn{
+    color: #fff;
+    padding: 0.8rem 1.4rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    &:disabled{
+      cursor: not-allowed;
+      background-color: #ccc;
+    }
+  }
+
+}
+
+
+
+// .form__controls {
+//   display: flex;
+// }
+// .form__text {
+//   min-height: 18rem;
+//   border: 1px solid #ccc;
+//   font: inherit;
+//   padding: 1rem;
+//   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+//   border-radius: 3px;
+// }
+// .form__text:focus {
+//   outline: none;
+// }
+// .form--secondary {
+//   padding: 2rem;
+//   background-color: #fff;
+//   max-width: 60rem;
+// }
+// .form--comment {
+//   width: 100%;
+//   box-shadow: none;
+//   margin: 0;
+// }
+
