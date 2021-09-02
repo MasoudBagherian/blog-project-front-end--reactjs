@@ -3,9 +3,10 @@ import FormGroup from './FromGroup';
 import { checkImageName, checkValidity } from '../utils';
 import FormImage from '../FormImage/FormImage';
 import Modal from './../../../UI/Modal/Modal';
-import ImageAlert from '../ImageAlert/ImageAlert';
+import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
 import FormFooter from '../FormFooter';
+import Loader from './../../../UI/Loader/Loader';
 
 const SignupForm = () => {
   const inputFileRef = useRef();
@@ -103,6 +104,8 @@ const SignupForm = () => {
   });
   const [imgAlert, setImgAlert] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+  const [err, setErr] = useState(false);
   const confirmChangeHandler = (e) => {
     const value = e.target.value;
     const formInfo = { ...form };
@@ -153,12 +156,17 @@ const SignupForm = () => {
     for (const key in formInfo) {
       formData.append(key, formInfo[key].value);
     }
+    setShowLoader(true);
+    setErr(false);
     axios
       .post('/auth/signup', formData)
       .then(({ data }) => {
+        setShowLoader(false);
+
         console.log(data);
       })
       .catch((err) => {
+        setShowLoader(false);
         const response = err.response.data;
         if (response.code === 100) {
           const errMsgs = response.errMsgs;
@@ -172,6 +180,8 @@ const SignupForm = () => {
             formInfo[key].touched = true;
           });
           setForm(formInfo);
+        } else {
+          setErr(true);
         }
       });
     // console.log(formData)
@@ -221,13 +231,14 @@ const SignupForm = () => {
     setImgAlert(imageAlert);
     e.target.value = '';
   };
-  const hideModal = () => {
-    setShowModal(false);
-  };
   return (
     <Fragment>
-      <Modal show={showModal} backdropClickHandler={hideModal}>
-        <ImageAlert message={imgAlert} />
+      {showLoader ? <Loader /> : null}
+      <Modal show={showModal} backdropClickHandler={() => setShowModal(false)}>
+        <ModalAlert message={imgAlert} />
+      </Modal>
+      <Modal show={err} backdropClickHandler={() => setErr(false)}>
+        <ModalAlert message="There is something wrong with server" />
       </Modal>
       <form className="form" autoComplete="off" onSubmit={submitHandler}>
         <div className="form__body">
