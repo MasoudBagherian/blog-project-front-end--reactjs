@@ -1,11 +1,11 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import FormGroup from './FromGroup';
 import { checkImageName, checkValidity } from '../utils';
 import FormImage from '../FormImage/FormImage';
 import Modal from './../../../UI/Modal/Modal';
 import ImageAlert from '../ImageAlert/ImageAlert';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
+import FormFooter from '../FormFooter';
 
 const SignupForm = () => {
   const inputFileRef = useRef();
@@ -213,7 +213,6 @@ const SignupForm = () => {
     const { isValid, imageAlert } = checkImageName(image);
     if (isValid) {
       imgRef.current.src = photoUrl;
-      // e.target.value = ''
       formInfo.image.data = image;
       setForm(formInfo);
       return;
@@ -294,14 +293,11 @@ const SignupForm = () => {
             sign up
           </button>
         </div>
-        <div className="form__footer">
-          <p className="form__message">
-            If you have an account, You can log in
-          </p>
-          <Link to="/auth/login" className="form__btn btn-secondary">
-            log in
-          </Link>
-        </div>
+        <FormFooter
+          message="If you have an account, You can log in"
+          href="/auth/login"
+          btnValue="log in"
+        />
       </form>
     </Fragment>
   );
