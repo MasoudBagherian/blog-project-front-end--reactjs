@@ -6,6 +6,7 @@
 @import './base/reset';
 @import './base/containers';
 @import './base/typography';
+@import './base/animations';
 //components
 @import '../../UI/icons/icons';
 @import '../../pages/Intro/intro';
@@ -16,4 +17,5 @@
 @import './../../UI/Modal/modal';
 @import './../../UI/Backdrop/backdrop';
 @import '../../components/forms/ImageAlert/image-alert';
+@import '../../UI/Loader/loader';
 //layout
