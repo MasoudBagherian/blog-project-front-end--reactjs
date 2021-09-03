@@ -2,8 +2,6 @@
   padding: 1rem;
   border-radius: 5px;
   overflow: hidden;
-  background-color: lighten($color-success, 20%);
-  color: darken($color-success, 20%);
   position: fixed;
   top: 2rem;
   right: 2rem;
@@ -14,34 +12,46 @@
   display: flex;
   align-items: center;
   animation: toast-reveal 0.5s cubic-bezier(0.55, 0.15, 0.45, 0.85);
+  &--success {
+    background-color: lighten($color-success, 20%);
+    color: darken($color-success, 20%);
+    .toast__btn {
+      color: darken($color-success, 20%);
+    }
+  }
+  &--error {
+    background-color: lighten($color-tritiary, 20%);
+    color: darken($color-tritiary, 20%);
+    .toast__btn {
+      color: darken($color-tritiary, 20%);
+    }
+  }
   &__icon {
     display: flex;
     flex-shrink: 0;
+    svg {
+      width: 4rem;
+      height: 4rem;
+    }
   }
-  &__success {
-    width: 4rem;
-    height: 4rem;
-  }
+
   &__content {
-    // margin: 0 1rem;
     margin: 0 2.4rem 0 1rem;
-    // width: 20rem;
   }
   &__title {
     font-weight: bold;
+    text-transform: uppercase;
     margin-bottom: 0.5rem;
     font-size: 1.8rem;
   }
   &__message {
     font-weight: normal;
-    // font-size: 1.4rem;
   }
   &__btn {
     display: flex;
     position: absolute;
     top: 0.8rem;
     right: 0.8rem;
-    color: darken($color-success, 20%);
   }
   &__close {
     width: 2rem;

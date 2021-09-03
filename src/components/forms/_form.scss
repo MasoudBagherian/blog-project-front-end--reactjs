@@ -1,53 +1,52 @@
-.form{
+.form {
   width: 90%;
   margin: 5rem auto;
-  max-width: 60rem;
+  max-width: 40rem;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2), 0 -1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   overflow: hidden;
-  &__body{
+  &__body {
     background-color: #fff;
     padding: 4rem 4rem 2rem 4rem;
   }
-  &__heading{
+  &__heading {
     margin-bottom: 2rem;
     font-size: 2rem;
   }
-  &__group{
+  &__group {
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
   }
-  &__input-wrapper{
+  &__input-wrapper {
     box-sizing: content-box;
     height: $input-height;
     position: relative;
     border: 2px solid lighten($color-text-secondary, 30%);
     border-radius: 5px;
-    transition: .2s;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, .8);
+    transition: 0.2s;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.8);
     &.active .form__label,
-    &.error .form__label{
+    &.error .form__label {
       top: 0;
       font-size: 1.2rem;
     }
-    &.active .form__label{
+    &.active .form__label {
       color: $color-primary;
     }
-    &.error .form__label{
+    &.error .form__label {
       color: $color-tritiary;
     }
-    &.active{
+    &.active {
       border-color: $color-primary;
-      box-shadow: 0 0 0 rgba(0, 0, 0, .8);
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
     }
-    &.error{
+    &.error {
       border-color: $color-tritiary;
-      box-shadow: 0 0 0 rgba(0, 0, 0, .8);
-
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
     }
   }
-  &__label{
+  &__label {
     position: absolute;
     color: lighten($color-text-secondary, 20%);
     text-transform: uppercase;
@@ -56,53 +55,48 @@
     top: 50%;
     transform: translate3d(0, -50%, 0);
     left: 1rem;
-    transition: .3s;
+    transition: 0.3s;
     background-color: #fff;
     padding: 4px;
     pointer-events: none;
-    
   }
-  &__input{
+  &__input {
     border-radius: 5px;
     width: 100%;
     height: $input-height;
     border: none;
     padding: 0 1rem;
     font: inherit;
-    transition: .2s;
+    transition: 0.2s;
     box-sizing: border-box;
-    &:focus{
+    &:focus {
       outline: none;
     }
   }
-  &__alert{
+  &__alert {
     color: $color-tritiary;
     margin-top: 1rem;
     font-size: 1.2rem;
   }
-  &__footer{
+  &__footer {
     background-color: $color-footer-bg;
-      padding: 2rem 4rem;
+    padding: 2rem 4rem;
   }
-  &__message{
+  &__message {
     margin-bottom: 2rem;
-
   }
-  &__btn{
+  &__btn {
     color: #fff;
     padding: 0.8rem 1.4rem;
     border-radius: 3px;
     text-transform: uppercase;
     font-size: 1.4rem;
-    &:disabled{
+    &:disabled {
       cursor: not-allowed;
       background-color: #ccc;
     }
   }
-
 }
-
-
 
 // .form__controls {
 //   display: flex;
@@ -128,4 +122,3 @@
 //   box-shadow: none;
 //   margin: 0;
 // }
-

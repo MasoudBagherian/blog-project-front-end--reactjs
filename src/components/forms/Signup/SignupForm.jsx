@@ -162,7 +162,7 @@ const SignupForm = (props) => {
     setShowLoader(true);
     setErr(false);
     axios
-      .post('/auth/signup', formData)
+      .post('/auth/sign', formData)
       .then(({ data }) => {
         setShowLoader(false);
         setShowToast(true);
@@ -173,19 +173,24 @@ const SignupForm = (props) => {
       })
       .catch((err) => {
         setShowLoader(false);
-        const response = err.response.data;
-        if (response.errCode === 100) {
-          const errMsgs = response.errMsgs;
-          const formInfo = { ...form };
-          errMsgs.forEach((err) => {
-            const key = err.param;
-            const message = err.msg;
-            formInfo[key].errMsg = message;
-            formInfo[key].focused = false;
-            formInfo[key].isValid = false;
-            formInfo[key].touched = true;
-          });
-          setForm(formInfo);
+        console.log(err.response);
+        if (err.response) {
+          const response = err.response.data;
+          if (response.errCode === 100) {
+            const errMsgs = response.errMsgs;
+            const formInfo = { ...form };
+            errMsgs.forEach((err) => {
+              const key = err.param;
+              const message = err.msg;
+              formInfo[key].errMsg = message;
+              formInfo[key].focused = false;
+              formInfo[key].isValid = false;
+              formInfo[key].touched = true;
+            });
+            setForm(formInfo);
+          } else {
+            setErr(true);
+          }
         } else {
           setErr(true);
         }
@@ -237,7 +242,6 @@ const SignupForm = (props) => {
     setImgAlert(imageAlert);
     e.target.value = '';
   };
-  console.log(props);
   return (
     <Fragment>
       {showToast ? (
@@ -245,6 +249,7 @@ const SignupForm = (props) => {
           message="Registration successfully done"
           closeClickHandler={() => setShowToast(false)}
           autoCloseTime={SIGNUP_TOAST_CLOSE_TIME}
+          type="success"
         />
       ) : null}
       {showLoader ? <Loader /> : null}

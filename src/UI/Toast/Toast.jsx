@@ -1,6 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import { BiCheckShield as SuccessIcon } from 'react-icons/bi';
+import { BsExclamationCircleFill as ErrorIcon } from 'react-icons/bs';
+
 import { FaRegWindowClose as CloseIcon } from 'react-icons/fa';
+const configToast = (type) => {
+  let settings = { class: null, icon: null };
+  if (type === 'success') {
+    settings.icon = <SuccessIcon />;
+    settings.class = 'toast--success';
+  }
+  if (type === 'error') {
+    settings.icon = <ErrorIcon />;
+    settings.class = 'toast--error';
+  }
+  return settings;
+};
 const Toast = (props) => {
   const closeBtnRef = useRef();
   useEffect(() => {
@@ -17,18 +31,16 @@ const Toast = (props) => {
     };
   }, []);
   return (
-    <div className="toast">
+    <div className={`toast ${configToast(props.type).class}`}>
       <button
         className="toast__btn"
         onClick={props.closeClickHandler}
         ref={closeBtnRef}>
         <CloseIcon className="toast__close" />
       </button>
-      <div className="toast__icon">
-        <SuccessIcon className="toast__success" />
-      </div>
+      <div className="toast__icon">{configToast(props.type).icon}</div>
       <div className="toast__content">
-        <div className="toast__title">success</div>
+        <div className="toast__title">{props.type}</div>
         <div className="toast__message">{props.message}</div>
       </div>
     </div>

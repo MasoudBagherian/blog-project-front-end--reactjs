@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ImageAlert = (props) => {
+const ModalAlert = (props) => {
   return (
     <div className="modal-alert">
       <p className="modal-alert__text">{props.message}</p>
@@ -8,4 +8,4 @@ const ImageAlert = (props) => {
   );
 };
 
-export default ImageAlert;
+export default ModalAlert;
