@@ -163,7 +163,7 @@ const SignupForm = () => {
       .then(({ data }) => {
         setShowLoader(false);
 
-        console.log(data);
+        // console.log(data);
       })
       .catch((err) => {
         setShowLoader(false);
