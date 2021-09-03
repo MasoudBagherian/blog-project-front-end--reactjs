@@ -7,8 +7,10 @@ import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
 import FormFooter from '../FormFooter';
 import Loader from './../../../UI/Loader/Loader';
-
-const SignupForm = () => {
+import Toast from './../../../UI/Toast/Toast';
+import { SIGNUP_TOAST_CLOSE_TIME } from './../../../globals';
+import { withRouter } from 'react-router';
+const SignupForm = (props) => {
   const inputFileRef = useRef();
   const imgRef = useRef();
   const [form, setForm] = useState({
@@ -105,6 +107,7 @@ const SignupForm = () => {
   const [imgAlert, setImgAlert] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [err, setErr] = useState(false);
   const confirmChangeHandler = (e) => {
     const value = e.target.value;
@@ -162,7 +165,10 @@ const SignupForm = () => {
       .post('/auth/signup', formData)
       .then(({ data }) => {
         setShowLoader(false);
-
+        setShowToast(true);
+        setTimeout(() => {
+          props.history.push('/auth/login');
+        }, SIGNUP_TOAST_CLOSE_TIME);
         // console.log(data);
       })
       .catch((err) => {
@@ -231,8 +237,16 @@ const SignupForm = () => {
     setImgAlert(imageAlert);
     e.target.value = '';
   };
+  console.log(props);
   return (
     <Fragment>
+      {showToast ? (
+        <Toast
+          message="Registration successfully done"
+          closeClickHandler={() => setShowToast(false)}
+          autoCloseTime={SIGNUP_TOAST_CLOSE_TIME}
+        />
+      ) : null}
       {showLoader ? <Loader /> : null}
       <Modal show={showModal} backdropClickHandler={() => setShowModal(false)}>
         <ModalAlert message={imgAlert} />
@@ -314,4 +328,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default withRouter(SignupForm);

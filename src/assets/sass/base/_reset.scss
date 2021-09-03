@@ -1,15 +1,15 @@
 *,
 *::before,
-*::after{
+*::after {
   padding: 0;
   margin: 0;
   box-sizing: inherit;
 }
-html{
+html {
   box-sizing: border-box;
   font-size: 62.5%;
 }
-body{
+body {
   font-size: 1.6rem;
   line-height: 1.4;
   background-color: $color-bg;
@@ -23,21 +23,22 @@ h5,
 h6 {
   font-weight: normal;
 }
-a{
+a {
   text-decoration: none;
 }
-li{
+li {
   list-style-type: none;
 }
-button{
+button {
   border: none;
   outline: none;
   cursor: pointer;
   font: inherit;
-  &:focus{
+  background-color: transparent;
+  &:focus {
     outline: none;
   }
 }
-img{
+img {
   display: block;
 }

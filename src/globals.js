@@ -1,0 +1,1 @@
+export const SIGNUP_TOAST_CLOSE_TIME = 4000;

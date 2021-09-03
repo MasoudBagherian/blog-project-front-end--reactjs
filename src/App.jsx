@@ -9,7 +9,7 @@ import Toast from './UI/Toast/Toast';
 const App = () => {
   return (
     <Fragment>
-      <Toast message="Registration successfully done" />
+      {/* <Toast message="Registration successfully done" /> */}
       <Route path="/" exact component={Intro} />
       <Route path="/auth/login" component={Login} />
       <Route path="/auth/signup" component={Signup} />

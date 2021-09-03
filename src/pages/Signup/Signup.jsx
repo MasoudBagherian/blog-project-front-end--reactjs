@@ -1,13 +1,12 @@
 import React from 'react';
 import SignupForm from '../../components/forms/Signup/SignupForm';
 import Main from '../../hoc/Main';
-const Signup = () => {
+const Signup = (props) => {
   return (
-      
     <Main>
-      <SignupForm/>
+      <SignupForm />
     </Main>
-  )
-}
+  );
+};
 
 export default Signup;
