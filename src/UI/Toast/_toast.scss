@@ -13,7 +13,7 @@
   font-family: 'Oswald', sans-serif;
   display: flex;
   align-items: center;
-  animation: toast-reveal 0.7s ease-in-out;
+  animation: toast-reveal 0.5s cubic-bezier(0.55, 0.15, 0.45, 0.85);
   &__icon {
     display: flex;
     flex-shrink: 0;

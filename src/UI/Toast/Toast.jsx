@@ -3,15 +3,17 @@ import { BiCheckShield as SuccessIcon } from 'react-icons/bi';
 import { FaRegWindowClose as CloseIcon } from 'react-icons/fa';
 const Toast = (props) => {
   const closeBtnRef = useRef();
-  let timer;
   useEffect(() => {
+    let timer;
     if (props.autoCloseTime) {
       timer = setTimeout(() => {
         closeBtnRef.current.click();
       }, props.autoCloseTime);
     }
     return () => {
-      clearTimeout(timer);
+      if (props.autoCloseTime) {
+        clearTimeout(timer);
+      }
     };
   }, []);
   return (

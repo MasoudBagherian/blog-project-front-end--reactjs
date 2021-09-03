@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useRef } from 'react';
-import FormGroup from './FromGroup';
+import FormGroup from '../FromGroup';
 import { checkImageName, checkValidity } from '../utils';
 import FormImage from '../FormImage/FormImage';
 import Modal from './../../../UI/Modal/Modal';
@@ -174,7 +174,7 @@ const SignupForm = (props) => {
       .catch((err) => {
         setShowLoader(false);
         const response = err.response.data;
-        if (response.code === 100) {
+        if (response.errCode === 100) {
           const errMsgs = response.errMsgs;
           const formInfo = { ...form };
           errMsgs.forEach((err) => {
@@ -256,7 +256,7 @@ const SignupForm = (props) => {
       </Modal>
       <form className="form" autoComplete="off" onSubmit={submitHandler}>
         <div className="form__body">
-          <h1 className="form__heading">sign up in BlogCenter</h1>
+          <h1 className="form__heading">Sign up in BlogCenter</h1>
           <FormImage
             clickIconHandler={clickIconHandler}
             changeImageHandler={changeImageHandler}
