@@ -1,0 +1,36 @@
+.header {
+  background-color: $color-primary;
+  padding: 2rem 0;
+  &__body {
+    position: relative;
+  }
+  &__nav-btn {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3px 0;
+    .line,
+    &::before,
+    &::after {
+      width: 100%;
+      height: 4px;
+      border-radius: 100px;
+      background-color: #fff;
+    }
+    &::before,
+    &::after {
+      content: ' ';
+    }
+  }
+  &__logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    color: #fff;
+    font-weight: normal;
+    font-size: 2.4rem;
+  }
+}

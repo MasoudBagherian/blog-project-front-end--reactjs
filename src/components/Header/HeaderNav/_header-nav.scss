@@ -1,0 +1,30 @@
+.nav {
+  position: fixed;
+  min-width: $header-nav-width;
+  height: 100%;
+  top: 0;
+  // left: 0;
+  left: $header-nav-width * -1;
+  overflow-y: auto;
+  background-color: #fff;
+  transition: 0.3s;
+  z-index: 20;
+  &.show {
+    left: 0;
+  }
+  &__item {
+    text-transform: capitalize;
+  }
+  &__link {
+    padding: 1.5rem 1rem;
+    color: $color-text-primary;
+    transition: 0.3s;
+    white-space: nowrap;
+    &:hover {
+      background-color: lighten($color-text-secondary, 40%);
+    }
+    &.active {
+      color: $color-primary;
+    }
+  }
+}

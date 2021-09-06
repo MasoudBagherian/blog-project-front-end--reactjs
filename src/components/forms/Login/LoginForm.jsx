@@ -13,7 +13,6 @@ import { LOGIN_TOAST_CLOSE_TIME } from '../../../globals';
 
 const LoginForm = (props) => {
   const submitBtnRef = useRef();
-  // console.log(props);
   const [form, setForm] = useState({
     email: {
       focused: false,
@@ -40,6 +39,7 @@ const LoginForm = (props) => {
   });
   const [fetchErr, setFetchErr] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const [authSuccess, setAuthSuccess] = useState(false);
   const isFormValid = () => {
     const formInfo = { ...form };
     for (const key in formInfo) {
@@ -112,10 +112,14 @@ const LoginForm = (props) => {
     axios
       .post('/auth/login', data)
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         setShowLoader(false);
         showSuccessToast();
+        setAuthSuccess(true);
         props.fetchAuthInfo(data);
+        setTimeout(() => {
+          setRedirect(true);
+        }, LOGIN_TOAST_CLOSE_TIME);
         submitBtnRef.current.disabled = true;
       })
       .catch((err) => {
@@ -137,8 +141,18 @@ const LoginForm = (props) => {
     toastInfoCpy.show = false;
     setToastInfo(toastInfoCpy);
   };
+  let dashboardRedirect = null;
+  if (redirect || (!authSuccess && props.isAuth)) {
+    if (props.role === 'admin') {
+      dashboardRedirect = <Redirect to="/admin" />;
+    }
+    if (props.role === 'blogger') {
+      dashboardRedirect = <Redirect to="/dashboard" />;
+    }
+  }
   return (
     <Fragment>
+      {dashboardRedirect}
       {showLoader ? <Loader /> : null}
       {toastInfo.show ? (
         <Toast
@@ -186,7 +200,11 @@ const LoginForm = (props) => {
     </Fragment>
   );
 };
+const mapStateToProps = (state) => ({
+  role: state.auth.role,
+  isAuth: state.auth.token !== null,
+});
 const mapDispatchToProps = (dispatch) => ({
   fetchAuthInfo: (data) => dispatch(allActions.authFetchInfo(data)),
 });
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

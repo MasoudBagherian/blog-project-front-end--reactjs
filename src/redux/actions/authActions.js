@@ -21,6 +21,9 @@ export const authLogout = () => {
     type: actionTypes.AUTH_LOG_OUT,
   };
 };
+export const authResetInfo = () => ({
+  type: actionTypes.AUTH_RESET_INFO,
+});
 export const authFetchInfo = (authData) => {
   const { token, userId: id, expiresIn, role } = authData;
   return (dispatch) => {
