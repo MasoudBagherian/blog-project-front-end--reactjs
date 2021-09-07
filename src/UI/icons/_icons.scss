@@ -1,12 +1,25 @@
-.icon{
-  &-book-reader{
+.icon {
+  &-book-reader {
     width: 4rem;
   }
-  &-login{
+  &-login {
     width: 2rem;
-    height :2rem;
+    height: 2rem;
   }
-  &-camera{
+  &-camera {
     width: 2.4rem;
+  }
+  &-password {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+  &-edit-profile {
+    margin-right: 1rem;
+    width: 2rem;
+    height: 2rem;
+  }
+  &-plus {
+    width: 2.8rem;
+    height: 2.8rem;
   }
 }

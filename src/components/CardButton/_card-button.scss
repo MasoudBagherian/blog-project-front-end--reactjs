@@ -1,0 +1,71 @@
+.card-btn {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  right: 1rem;
+  border-radius: 50%;
+  z-index: 1;
+  &--delete {
+    top: 1rem;
+    color: $color-tritiary;
+    .overlay {
+      background-color: var(--color-tritiary);
+    }
+  }
+  &--edit {
+    top: 6rem;
+    color: $color-success;
+    .overlay {
+      background-color: var(--color-success);
+    }
+  }
+  &--profile {
+    right: -2rem;
+    top: -2rem;
+    color: $color-tritiary;
+    .overlay {
+      white-space: nowrap;
+      font-size: 1.2rem !important;
+      width: 15rem !important;
+      background-color: $color-tritiary;
+    }
+  }
+  .icon {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.6);
+    &:hover + .overlay {
+      transform: scaleX(1);
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    }
+  }
+  .overlay {
+    position: absolute;
+    height: 100%;
+    border-radius: 2rem 0 0 2rem;
+    color: #fff;
+    top: 0;
+    right: 2rem;
+    width: 10rem;
+    z-index: 1;
+    text-transform: capitalize;
+    font-style: italic;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: 0.3s;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
+  }
+}

@@ -97,6 +97,11 @@
       background-color: #ccc;
     }
   }
+  &--secondary {
+    padding: 2rem;
+    padding-bottom: 12rem;
+    background-color: #fff;
+  }
 }
 
 // .form__controls {
@@ -113,11 +118,7 @@
 // .form__text:focus {
 //   outline: none;
 // }
-// .form--secondary {
-//   padding: 2rem;
-//   background-color: #fff;
-//   max-width: 60rem;
-// }
+
 // .form--comment {
 //   width: 100%;
 //   box-shadow: none;

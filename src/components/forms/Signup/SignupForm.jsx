@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useRef } from 'react';
-import FormGroup from '../FromGroup';
+import FormGroup from '../FormGroup';
 import { checkImageName, checkValidity } from '../utils';
 import FormImage from '../FormImage/FormImage';
 import Modal from './../../../UI/Modal/Modal';
@@ -10,100 +10,11 @@ import Loader from './../../../UI/Loader/Loader';
 import Toast from './../../../UI/Toast/Toast';
 import { SIGNUP_TOAST_CLOSE_TIME } from './../../../globals';
 import { withRouter } from 'react-router';
+import { SIGNUP_INFO } from './signupInfo';
 const SignupForm = (props) => {
   const inputFileRef = useRef();
   const imgRef = useRef();
-  const [form, setForm] = useState({
-    firstname: {
-      focused: false,
-      value: '',
-      validation: {
-        isRequired: true,
-        minLength: 2,
-        isName: true,
-        defaultErrMsg: 'First name is required',
-        mainErrMsg:
-          'First name should have at least 2 characters and contains only space and alphabet characters',
-      },
-
-      errMsg: null,
-      isValid: false,
-      touched: false,
-    },
-    lastname: {
-      focused: false,
-      value: '',
-      validation: {
-        isRequired: true,
-        minLength: 2,
-        isName: true,
-        defaultErrMsg: 'Last name is required',
-        mainErrMsg:
-          'Last name should have at least 2 characters and contains only space and alphabet characters',
-      },
-
-      errMsg: null,
-      isValid: false,
-      touched: false,
-    },
-    email: {
-      focused: false,
-      value: '',
-      validation: {
-        isRequired: true,
-        isEmail: true,
-        defaultErrMsg: 'Email is required',
-        mainErrMsg: 'Please enter a valid E-Mail',
-      },
-
-      errMsg: null,
-      isValid: false,
-      touched: false,
-    },
-    username: {
-      focused: false,
-      value: '',
-      validation: {
-        isRequired: true,
-        minLength: 8,
-        maxLength: 20,
-        defaultErrMsg: 'Username is required',
-        mainErrMsg: 'Username should have between 8 and 20 characters',
-      },
-
-      errMsg: null,
-      isValid: false,
-      touched: false,
-    },
-    password: {
-      focused: false,
-      value: '',
-      validation: {
-        isRequired: true,
-        minLength: 8,
-        maxLength: 20,
-        isPassword: true,
-        defaultErrMsg: 'Password is required',
-        mainErrMsg:
-          'Password should have between 8 and 20 characters and only alphabet and numeric characters and contain at least one capital letter and at least one small letter and at least one numeric character',
-      },
-
-      errMsg: null,
-      isValid: false,
-      touched: false,
-    },
-    passwordConfirm: {
-      focused: false,
-      value: '',
-      isValid: false,
-      errMsg: null,
-      touched: false,
-    },
-    image: {
-      isValid: true,
-      data: null,
-    },
-  });
+  const [form, setForm] = useState(SIGNUP_INFO);
   const [imgAlert, setImgAlert] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -162,7 +73,7 @@ const SignupForm = (props) => {
     setShowLoader(true);
     setErr(false);
     axios
-      .post('/auth/sign', formData)
+      .post('/auth/signup', formData)
       .then(({ data }) => {
         setShowLoader(false);
         setShowToast(true);

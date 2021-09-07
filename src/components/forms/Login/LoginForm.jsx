@@ -1,6 +1,6 @@
 import React, { useState, useRef, Fragment } from 'react';
 import FormFooter from '../FormFooter';
-import FormGroup from '../FromGroup';
+import FormGroup from '../FormGroup';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
 import Loader from './../../../UI/Loader/Loader';
 import Toast from './../../../UI/Toast/Toast';
@@ -10,27 +10,11 @@ import { connect } from 'react-redux';
 import { allActions } from './../../../redux/actions/allActions';
 import { Redirect } from 'react-router-dom';
 import { LOGIN_TOAST_CLOSE_TIME } from '../../../globals';
+import { LOGIN_INFO } from './loginInfo';
 
 const LoginForm = (props) => {
   const submitBtnRef = useRef();
-  const [form, setForm] = useState({
-    email: {
-      focused: false,
-      value: '',
-      isValid: false,
-      errMsg: null,
-      touched: false,
-      defaultErrMsg: 'E-Mail is required',
-    },
-    password: {
-      focused: false,
-      value: '',
-      isValid: false,
-      errMsg: null,
-      touched: false,
-      defaultErrMsg: 'Password is required',
-    },
-  });
+  const [form, setForm] = useState(LOGIN_INFO);
   const [showLoader, setShowLoader] = useState(false);
   const [toastInfo, setToastInfo] = useState({
     type: null,
