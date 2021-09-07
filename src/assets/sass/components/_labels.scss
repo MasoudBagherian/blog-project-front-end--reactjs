@@ -1,0 +1,24 @@
+.label {
+  &--primary {
+    position: relative;
+    background-color: $color-primary;
+    padding: 5px;
+    border-radius: 3px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    &::before {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-bottom: none;
+      border-top: 0.6rem solid $color-primary;
+      border-right: 0.6rem solid transparent;
+      border-left: 0.6rem solid transparent;
+      top: 100%;
+      left: 8px;
+    }
+  }
+}

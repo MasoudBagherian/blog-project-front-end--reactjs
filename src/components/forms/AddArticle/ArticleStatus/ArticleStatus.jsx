@@ -1,8 +1,10 @@
 import React from 'react';
 import { IoIosArrowDown as ArrowIcon } from 'react-icons/io';
+import LabelPrimary from './../../../../UI/labels/LabelPrimary';
 const ArticleStatus = (props) => {
   return (
     <div className={props.formField.focused ? 'status active' : 'status'}>
+      <LabelPrimary label="status" />
       <div className="status__header">
         <div className="line"></div>
         <input
@@ -22,7 +24,7 @@ const ArticleStatus = (props) => {
         <li
           className="status__item"
           onMouseDown={(e) => e.preventDefault()}
-          onClick={props.selectItemHandler}
+          onClick={props.selectItemClickHndler}
           name={props.name}
           value="public">
           public
@@ -30,7 +32,7 @@ const ArticleStatus = (props) => {
         <li
           className="status__item"
           onMouseDown={(e) => e.preventDefault()}
-          onClick={props.selectItemHandler}
+          onClick={props.selectItemClickHndler}
           name={props.name}
           value="private">
           private

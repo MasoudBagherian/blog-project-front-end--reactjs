@@ -1,5 +1,6 @@
 .status {
   position: relative;
+  margin-bottom: 2rem;
   &.active &__options {
     display: block;
   }
@@ -60,6 +61,7 @@
     border: 1px solid darken($color-bg, 10%);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     display: none;
+    z-index: 5;
   }
   &__item {
     background-color: $color-bg;

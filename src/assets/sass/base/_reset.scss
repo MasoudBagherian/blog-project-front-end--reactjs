@@ -43,3 +43,9 @@ button {
 img {
   display: block;
 }
+label {
+  display: table;
+}
+.ck-editor__editable {
+  min-height: 20rem;
+}

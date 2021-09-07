@@ -4,12 +4,15 @@ import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
 import FormGroup from '../FormGroup';
 import FormImage from '../FormImage/FormImage';
 import { checkImageName, checkValidity } from '../utils';
+import ArticleContent from './ArticleContent';
 import { ARTICLE_INFO } from './articleInfo';
 import ArticleStatus from './ArticleStatus/ArticleStatus';
 
 const AddArticleForm = () => {
   const inputFileRef = useRef();
   const imgRef = useRef();
+  const editorRef = useRef();
+
   const [form, setForm] = useState(ARTICLE_INFO);
   const [showModal, setShowModal] = useState(false);
   const [imgAlert, setImgAlert] = useState(null);
@@ -76,12 +79,25 @@ const AddArticleForm = () => {
     formInfo[key].focused = false;
     setForm(formInfo);
   };
-  const selectItemHandler = (e) => {
+  const selectItemClickHndler = (e) => {
     const { value } = e.target.attributes.value;
     const { value: key } = e.target.attributes.name;
     const formInfo = { ...form };
     formInfo[key].value = value;
     formInfo[key].focused = false;
+    setForm(formInfo);
+  };
+  const editorChangeHandler = (e) => {
+    const editor = editorRef.current.editor;
+    const value = editor.getData();
+    const formInfo = { ...form };
+    formInfo.content.value = value;
+    const { isValid, errMsg } = checkValidity(
+      value,
+      formInfo.content.validation
+    );
+    formInfo.content.isValid = isValid;
+    formInfo.content.errMsg = errMsg;
     setForm(formInfo);
   };
   return (
@@ -109,9 +125,15 @@ const AddArticleForm = () => {
           formField={form.status}
           selectFocusHandler={selectFocusHandler}
           selectBlurHandler={selectBlurHandler}
-          selectItemHandler={selectItemHandler}
+          selectItemClickHndler={selectItemClickHndler}
           name="status"
         />
+        <ArticleContent
+          editorRef={editorRef}
+          editorChangeHandler={editorChangeHandler}
+          formField={form.content}
+        />
+        {/* <pre>{JSON.stringify(form.content, null, 2)}</pre> */}
       </form>
     </Fragment>
   );

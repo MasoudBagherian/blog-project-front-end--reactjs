@@ -21,4 +21,15 @@ export const ARTICLE_INFO = {
     value: 'public',
     focused: false,
   },
+  content: {
+    isValid: false,
+    value: '',
+    errMsg: null,
+    validation: {
+      isRequired: true,
+      minWords: 10,
+      defaultErrMsg: 'Content is required',
+      mainErrMsg: 'Your arcticle should has at least 10 words',
+    },
+  },
 };
