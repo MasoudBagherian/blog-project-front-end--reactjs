@@ -1,0 +1,21 @@
+.author {
+  font-size: 1.4rem;
+  color: $color-text-secondary;
+  &--flex {
+    text-align: center;
+  }
+  &__firstname {
+    text-transform: capitalize;
+    font-style: italic;
+  }
+  &__lastname {
+    text-transform: capitalize;
+    font-style: italic;
+  }
+}
+.author--flex {
+}
+.author__firstname {
+}
+.author__lastname {
+}

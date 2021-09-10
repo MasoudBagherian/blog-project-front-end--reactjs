@@ -2,26 +2,43 @@ import React, { useState, useRef, Fragment } from 'react';
 import FormFooter from '../FormFooter';
 import FormGroup from '../FormGroup';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
-import Loader from './../../../UI/Loader/Loader';
 import Toast from './../../../UI/Toast/Toast';
-import Modal from './../../../UI/Modal/Modal';
-import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
-import { connect } from 'react-redux';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { allActions } from './../../../redux/actions/allActions';
 import { Redirect } from 'react-router-dom';
 import { LOGIN_TOAST_CLOSE_TIME } from '../../../globals';
-import { LOGIN_INFO } from './loginInfo';
+import withAjax from './../../../hoc/withAjax';
 
 const LoginForm = (props) => {
+  const role = useSelector((state) => state.auth.role);
+  const isAuth = useSelector((state) => state.auth.token !== null);
+  const dispatch = useDispatch();
   const submitBtnRef = useRef();
-  const [form, setForm] = useState(LOGIN_INFO);
-  const [showLoader, setShowLoader] = useState(false);
+
+  const [form, setForm] = useState({
+    email: {
+      focused: false,
+      value: '',
+      isValid: false,
+      errMsg: null,
+      touched: false,
+      defaultErrMsg: 'E-Mail is required',
+    },
+    password: {
+      focused: false,
+      value: '',
+      isValid: false,
+      errMsg: null,
+      touched: false,
+      defaultErrMsg: 'Password is required',
+    },
+  });
   const [toastInfo, setToastInfo] = useState({
     type: null,
     show: false,
     message: null,
   });
-  const [fetchErr, setFetchErr] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [authSuccess, setAuthSuccess] = useState(false);
   const isFormValid = () => {
@@ -91,32 +108,21 @@ const LoginForm = (props) => {
       data[key] = formInfo[key].value.trim();
     }
     hideToast();
-    setShowLoader(true);
-    setFetchErr(false);
     axios
       .post('/auth/login', data)
       .then(({ data }) => {
-        // console.log(data);
-        setShowLoader(false);
         showSuccessToast();
         setAuthSuccess(true);
-        props.fetchAuthInfo(data);
+        dispatch(allActions.authFetchInfo(data));
         setTimeout(() => {
           setRedirect(true);
         }, LOGIN_TOAST_CLOSE_TIME);
         submitBtnRef.current.disabled = true;
       })
       .catch((err) => {
-        setShowLoader(false);
-        if (err.response) {
-          const response = err.response.data;
-          if (response.errCode === 100) {
-            showErrorToast();
-          } else {
-            setFetchErr(true);
-          }
-        } else {
-          setFetchErr(true);
+        console.log('err ', err.response);
+        if (err.response && err.response.data.errCode === 100) {
+          showErrorToast();
         }
       });
   };
@@ -126,18 +132,17 @@ const LoginForm = (props) => {
     setToastInfo(toastInfoCpy);
   };
   let dashboardRedirect = null;
-  if (redirect || (!authSuccess && props.isAuth)) {
-    if (props.role === 'admin') {
+  if (redirect || (!authSuccess && isAuth)) {
+    if (role === 'admin') {
       dashboardRedirect = <Redirect to="/admin" />;
     }
-    if (props.role === 'blogger') {
+    if (role === 'blogger') {
       dashboardRedirect = <Redirect to="/dashboard" />;
     }
   }
   return (
     <Fragment>
       {dashboardRedirect}
-      {showLoader ? <Loader /> : null}
       {toastInfo.show ? (
         <Toast
           type={toastInfo.type}
@@ -146,9 +151,6 @@ const LoginForm = (props) => {
           autoCloseTime={LOGIN_TOAST_CLOSE_TIME}
         />
       ) : null}
-      <Modal show={fetchErr} backdropClickHandler={() => setFetchErr(false)}>
-        <ModalAlert message="There is something wrong with server" />
-      </Modal>
       <form className="form" autoComplete="off" onSubmit={submitHandler}>
         <div className="form__body">
           <h1 className="form__heading">Log in to BlogCenter</h1>
@@ -184,11 +186,5 @@ const LoginForm = (props) => {
     </Fragment>
   );
 };
-const mapStateToProps = (state) => ({
-  role: state.auth.role,
-  isAuth: state.auth.token !== null,
-});
-const mapDispatchToProps = (dispatch) => ({
-  fetchAuthInfo: (data) => dispatch(allActions.authFetchInfo(data)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+
+export default withAjax(LoginForm, axios, { errCode: 100 });

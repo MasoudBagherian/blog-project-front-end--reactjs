@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_USER_AVATAR, SERVER_IMAGE_FOLDER } from '../../../globals';
 import Camera from '../../../UI/icons/Camera';
 const FormImage = (props) => {
   return (
@@ -11,11 +12,7 @@ const FormImage = (props) => {
           className="form-image__file"
         />
         <div className="form-image__frame">
-          <img
-            src="http://localhost:5000/assets/image/ragnar.jpg"
-            alt=""
-            ref={props.imgRef}
-          />
+          <img src={props.imagePath} alt="" ref={props.imgRef} />
         </div>
         <button
           className="form-image__btn"

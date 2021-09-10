@@ -92,10 +92,14 @@
     text-transform: uppercase;
     font-size: 1.4rem;
     display: table;
-    &:disabled {
+    &:disabled,
+    &.disabled {
       cursor: not-allowed;
       background-color: #ccc;
     }
+  }
+  &__controls {
+    display: flex;
   }
   &--secondary {
     padding: 2rem;

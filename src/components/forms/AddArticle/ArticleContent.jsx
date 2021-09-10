@@ -12,7 +12,9 @@ const ArticleContent = (props) => {
         onChange={props.editorChangeHandler}
         name={props.name}
       />
-      <p className="form__alert">{props.formField.errMsg}</p>
+      <p className="form__alert" style={{ marginBottom: '1rem' }}>
+        {props.formField.errMsg}
+      </p>
     </Fragment>
   );
 };

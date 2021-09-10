@@ -21,4 +21,25 @@
       left: 8px;
     }
   }
+  &--secondary {
+    display: table;
+    position: relative;
+    text-transform: capitalize;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    &::before {
+      content: ' ';
+      position: absolute;
+      width: 40%;
+      height: 5px;
+      border-radius: 100px;
+      background-color: $color-secondary;
+      bottom: 0;
+      left: 0;
+      transition: 0.3s;
+    }
+    &:hover::before {
+      width: 100%;
+    }
+  }
 }

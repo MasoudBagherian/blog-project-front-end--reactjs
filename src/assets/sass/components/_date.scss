@@ -1,0 +1,13 @@
+.date {
+  font-size: 1.4rem;
+  color: $color-text-secondary;
+  margin-bottom: 1rem;
+  &--flex {
+    margin-bottom: 0;
+    text-align: center;
+  }
+  &__time {
+    text-transform: capitalize;
+    font-style: italic;
+  }
+}

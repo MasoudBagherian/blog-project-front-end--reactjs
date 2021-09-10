@@ -14,6 +14,8 @@
 @import '../../components/forms/form';
 @import './components/buttons';
 @import './components/labels';
+@import './components/author';
+@import './components/date';
 @import './../../components/forms/FormImage/form-image';
 @import './../../UI/Modal/modal';
 @import './../../UI/Backdrop/backdrop';
@@ -23,6 +25,7 @@
 @import '../../pages/Dashboard/ProfilePage/ProfileCard/profile-card';
 @import '../../components/CardButton/card-button';
 @import '../../components/forms/AddArticle/ArticleStatus/article-status';
+@import '../../components/ArticleCard/article-card';
 //layout
 @import '../../components/Header/header';
 @import '../../components/Header/HeaderNav/header-nav';

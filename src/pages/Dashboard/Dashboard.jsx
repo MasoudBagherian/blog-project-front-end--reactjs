@@ -1,32 +1,33 @@
 import React, { useEffect, Fragment } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Header from '../../components/Header/Header';
-import { Route } from 'react-router-dom';
+import { Route, useHistory, useRouteMatch } from 'react-router-dom';
 import ProfilePage from './ProfilePage/ProfilePage';
 import AddArticle from './AddArticle/AddArticle';
 const Dashboard = (props) => {
-  const path = props.match.path;
+  const isAuth = useSelector((state) => state.auth.token !== null);
+  const role = useSelector((state) => state.auth.role);
+  const history = useHistory();
+  const match = useRouteMatch();
+  const path = match.path;
   useEffect(() => {
-    if (!props.isAuth) {
-      props.history.push('/');
+    if (!isAuth) {
+      history.push('/');
     }
-    if (props.role === 'admin' && path === '/dashboard') {
-      props.history.push('/admin');
+    if (role === 'admin' && path === '/dashboard') {
+      history.push('/admin');
     }
-    if (props.role === 'blogger' && path === '/admin') {
-      props.history.push('/dashboard');
+    if (role === 'blogger' && path === '/admin') {
+      history.push('/dashboard');
     }
   }, []);
   return (
     <Fragment>
-      <Header role={props.role} />
+      <Header role={role} />
       <Route path={`${path}`} exact component={ProfilePage} />
       <Route path={`${path}/add-article`} component={AddArticle} />
     </Fragment>
   );
 };
-const mapStateToProps = (state) => ({
-  isAuth: state.auth.token !== null,
-  role: state.auth.role,
-});
-export default connect(mapStateToProps)(Dashboard);
+
+export default Dashboard;

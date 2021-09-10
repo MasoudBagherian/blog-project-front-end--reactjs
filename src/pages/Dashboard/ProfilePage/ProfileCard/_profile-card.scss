@@ -58,6 +58,9 @@
     .lastname {
       text-transform: capitalize;
     }
+    .lastname {
+      margin-left: 0.5rem;
+    }
   }
   &__email {
     color: $color-secondary;

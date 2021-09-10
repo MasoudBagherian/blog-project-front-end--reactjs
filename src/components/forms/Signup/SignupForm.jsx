@@ -6,20 +6,115 @@ import Modal from './../../../UI/Modal/Modal';
 import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
 import FormFooter from '../FormFooter';
-import Loader from './../../../UI/Loader/Loader';
 import Toast from './../../../UI/Toast/Toast';
-import { SIGNUP_TOAST_CLOSE_TIME } from './../../../globals';
-import { withRouter } from 'react-router';
-import { SIGNUP_INFO } from './signupInfo';
+
+import { useHistory } from 'react-router-dom';
+
+import {
+  DEFAULT_USER_AVATAR,
+  SERVER_IMAGE_FOLDER,
+  SIGNUP_TOAST_CLOSE_TIME,
+} from '../../../globals';
+import withAjax from './../../../hoc/withAjax';
+
 const SignupForm = (props) => {
   const inputFileRef = useRef();
   const imgRef = useRef();
-  const [form, setForm] = useState(SIGNUP_INFO);
+  const history = useHistory();
+  const [form, setForm] = useState({
+    firstname: {
+      focused: false,
+      value: '',
+      validation: {
+        isRequired: true,
+        minLength: 2,
+        isName: true,
+        defaultErrMsg: 'First name is required',
+        mainErrMsg:
+          'First name should have at least 2 characters and contains only space and alphabet characters',
+      },
+
+      errMsg: null,
+      isValid: false,
+      touched: false,
+    },
+    lastname: {
+      focused: false,
+      value: '',
+      validation: {
+        isRequired: true,
+        minLength: 2,
+        isName: true,
+        defaultErrMsg: 'Last name is required',
+        mainErrMsg:
+          'Last name should have at least 2 characters and contains only space and alphabet characters',
+      },
+
+      errMsg: null,
+      isValid: false,
+      touched: false,
+    },
+    email: {
+      focused: false,
+      value: '',
+      validation: {
+        isRequired: true,
+        isEmail: true,
+        defaultErrMsg: 'Email is required',
+        mainErrMsg: 'Please enter a valid E-Mail',
+      },
+
+      errMsg: null,
+      isValid: false,
+      touched: false,
+    },
+    username: {
+      focused: false,
+      value: '',
+      validation: {
+        isRequired: true,
+        minLength: 8,
+        maxLength: 20,
+        defaultErrMsg: 'Username is required',
+        mainErrMsg: 'Username should have between 8 and 20 characters',
+      },
+
+      errMsg: null,
+      isValid: false,
+      touched: false,
+    },
+    password: {
+      focused: false,
+      value: '',
+      validation: {
+        isRequired: true,
+        minLength: 8,
+        maxLength: 20,
+        isPassword: true,
+        defaultErrMsg: 'Password is required',
+        mainErrMsg:
+          'Password should have between 8 and 20 characters and only alphabet and numeric characters and contain at least one capital letter and at least one small letter and at least one numeric character',
+      },
+
+      errMsg: null,
+      isValid: false,
+      touched: false,
+    },
+    passwordConfirm: {
+      focused: false,
+      value: '',
+      isValid: false,
+      errMsg: null,
+      touched: false,
+    },
+    image: {
+      isValid: true,
+      data: null,
+    },
+  });
   const [imgAlert, setImgAlert] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [showLoader, setShowLoader] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [err, setErr] = useState(false);
   const confirmChangeHandler = (e) => {
     const value = e.target.value;
     const formInfo = { ...form };
@@ -70,43 +165,31 @@ const SignupForm = (props) => {
     for (const key in formInfo) {
       formData.append(key, formInfo[key].value);
     }
-    setShowLoader(true);
-    setErr(false);
     axios
       .post('/auth/signup', formData)
       .then(({ data }) => {
-        setShowLoader(false);
         setShowToast(true);
         setTimeout(() => {
-          props.history.push('/auth/login');
+          history.push('/auth/login');
         }, SIGNUP_TOAST_CLOSE_TIME);
         // console.log(data);
       })
       .catch((err) => {
-        setShowLoader(false);
-        console.log(err.response);
-        if (err.response) {
+        if (err.response && err.response.data.errCode === 100) {
           const response = err.response.data;
-          if (response.errCode === 100) {
-            const errMsgs = response.errMsgs;
-            const formInfo = { ...form };
-            errMsgs.forEach((err) => {
-              const key = err.param;
-              const message = err.msg;
-              formInfo[key].errMsg = message;
-              formInfo[key].focused = false;
-              formInfo[key].isValid = false;
-              formInfo[key].touched = true;
-            });
-            setForm(formInfo);
-          } else {
-            setErr(true);
-          }
-        } else {
-          setErr(true);
+          const errMsgs = response.errMsgs;
+          const formInfo = { ...form };
+          errMsgs.forEach((err) => {
+            const key = err.param;
+            const message = err.msg;
+            formInfo[key].errMsg = message;
+            formInfo[key].focused = false;
+            formInfo[key].isValid = false;
+            formInfo[key].touched = true;
+          });
+          setForm(formInfo);
         }
       });
-    // console.log(formData)
   };
   const inputFocusHandler = (e) => {
     const key = e.target.name;
@@ -163,12 +246,8 @@ const SignupForm = (props) => {
           type="success"
         />
       ) : null}
-      {showLoader ? <Loader /> : null}
       <Modal show={showModal} backdropClickHandler={() => setShowModal(false)}>
         <ModalAlert message={imgAlert} />
-      </Modal>
-      <Modal show={err} backdropClickHandler={() => setErr(false)}>
-        <ModalAlert message="There is something wrong with server" />
       </Modal>
       <form className="form" autoComplete="off" onSubmit={submitHandler}>
         <div className="form__body">
@@ -178,6 +257,7 @@ const SignupForm = (props) => {
             changeImageHandler={changeImageHandler}
             inputRef={inputFileRef}
             imgRef={imgRef}
+            imagePath={`${SERVER_IMAGE_FOLDER}/${DEFAULT_USER_AVATAR}`}
           />
           <FormGroup
             label="first name"
@@ -244,4 +324,4 @@ const SignupForm = (props) => {
   );
 };
 
-export default withRouter(SignupForm);
+export default withAjax(SignupForm, axios, { errCode: 100 });
