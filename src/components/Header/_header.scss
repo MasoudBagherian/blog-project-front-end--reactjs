@@ -1,6 +1,11 @@
 .header {
-  background-color: $color-primary;
-  padding: 2rem 0;
+  &__top {
+    padding: 2rem 0;
+    background-color: $color-primary;
+  }
+  &__bottom {
+    padding: 2rem 0;
+  }
   &__body {
     position: relative;
   }

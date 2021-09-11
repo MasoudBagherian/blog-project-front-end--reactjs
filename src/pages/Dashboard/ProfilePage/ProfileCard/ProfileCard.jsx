@@ -2,11 +2,16 @@ import React from 'react';
 import CardButton from '../../../../components/CardButton/CardButton';
 import { FaEdit as EditIcon } from 'react-icons/fa';
 import { SERVER_IMAGE_FOLDER, DEFAULT_USER_AVATAR } from '../../../../globals';
+
+import { Link, useRouteMatch } from 'react-router-dom';
+
 const ProfileCard = ({ user }) => {
+  const match = useRouteMatch();
+  const path = match.path;
   const image = user.avatar ? user.avatar : DEFAULT_USER_AVATAR;
   return (
     <div className="profile">
-      <CardButton type="profile" />
+      <CardButton type="profile" btnRoute={`${path}/profile/change-password`} />
       <div className="profile__body">
         <div className="profile__image">
           <div className="image">
@@ -23,10 +28,10 @@ const ProfileCard = ({ user }) => {
           </div>
         </div>
       </div>
-      <a className="profile__btn" id="edit-profile-link">
+      <Link to={`${path}/profile/edit-profile`} className="profile__btn">
         <EditIcon className="icon-edit-profile" />
         edit profile
-      </a>
+      </Link>
     </div>
   );
 };

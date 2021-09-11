@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import Welcome from '../../../components/Welcome/Welcome';
 import Main from './../../../hoc/Main';
 import ProfileCard from './ProfileCard/ProfileCard';
 import { BiPlusMedical as PlusIcon } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
 import { useSelector } from 'react-redux';
 import ArticleList from './../../../components/ArticleList/ArticleList';
+import withAjax from './../../../hoc/withAjax';
+import AlertPrimary from './../../../UI/alerts/AlertPrimary';
 
 const ProfilePage = (props) => {
+  const match = useRouteMatch();
+  const path = match.path;
   const token = useSelector((state) => state.auth.token);
+  const [fetchErr, setFetchErr] = useState(false);
   useEffect(() => {
+    setFetchErr(false);
     axios
       .get(`/users/info?token=${token}`)
       .then(({ data }) => {
@@ -20,7 +26,7 @@ const ProfilePage = (props) => {
         setArticles(data.articles);
       })
       .catch((err) => {
-        console.log(err.response);
+        setFetchErr(true);
       });
   }, []);
   const [user, setUser] = useState({
@@ -31,22 +37,26 @@ const ProfilePage = (props) => {
     username: null,
   });
   const [articles, setArticles] = useState([]);
-  const pathname = props.location.pathname;
   return (
     <Main>
-      <Welcome username={user.username} avatar={user.avatar} />
-      <ProfileCard user={user} />
-      <ArticleList
-        articles={articles}
-        firstname={user.firstname}
-        lastname={user.lastname}
-        avatar={user.avatar}
-      />
-      <Link to={`${pathname}/add-article`} className="add-btn">
-        <PlusIcon className="icon-plus" />
-      </Link>
+      {fetchErr ? (
+        <AlertPrimary message="Fething data from server failed!" />
+      ) : (
+        <Fragment>
+          <ProfileCard user={user} />
+          <ArticleList
+            articles={articles}
+            firstname={user.firstname}
+            lastname={user.lastname}
+            avatar={user.avatar}
+          />
+          <Link to={`${path}/add-article`} className="add-btn">
+            <PlusIcon className="icon-plus" />
+          </Link>
+        </Fragment>
+      )}
     </Main>
   );
 };
 
-export default ProfilePage;
+export default withAjax(ProfilePage, axios);
