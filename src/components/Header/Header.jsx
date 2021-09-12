@@ -1,22 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { axiosInstance as axios } from '../../utils/axiosConfig';
 import Welcome from '../Welcome/Welcome';
 import HeaderNav from './HeaderNav/HeaderNav';
-import { useSelector } from 'react-redux';
 
 const Header = (props) => {
-  const token = useSelector((state) => state.auth.token);
-  const [user, setUser] = useState({ avatar: null, username: null });
-
   const [navShow, setNavShow] = useState(false);
-  useEffect(() => {
-    // if (token) {
-    axios.get(`/users/info?token=${token}`).then(({ data }) => {
-      const { username, avatar } = data.user;
-      setUser({ username, avatar });
-    });
-    // }
-  }, []);
   return (
     <div className="header">
       <HeaderNav
@@ -38,7 +25,7 @@ const Header = (props) => {
       </div>
       <div className="header__bottom">
         <div className="inner-container">
-          <Welcome username={user.username} avatar={user.avatar} />
+          <Welcome username={props.username} avatar={props.avatar} />
         </div>
       </div>
     </div>

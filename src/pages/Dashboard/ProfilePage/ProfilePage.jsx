@@ -15,8 +15,10 @@ const ProfilePage = (props) => {
   const path = match.path;
   const token = useSelector((state) => state.auth.token);
   const [fetchErr, setFetchErr] = useState(false);
+  const [fetchEnd, setFetchEnd] = useState(false);
   useEffect(() => {
     setFetchErr(false);
+    setFetchEnd(false);
     axios
       .get(`/users/info?token=${token}`)
       .then(({ data }) => {
@@ -24,9 +26,11 @@ const ProfilePage = (props) => {
         const { firstname, lastname, email, username, avatar } = data.user;
         setUser({ firstname, lastname, email, avatar, username });
         setArticles(data.articles);
+        setFetchEnd(true);
       })
       .catch((err) => {
         setFetchErr(true);
+        setFetchEnd(true);
       });
   }, []);
   const [user, setUser] = useState({
@@ -39,7 +43,7 @@ const ProfilePage = (props) => {
   const [articles, setArticles] = useState([]);
   return (
     <Main>
-      {fetchErr ? (
+      {!fetchEnd ? null : fetchErr ? (
         <AlertPrimary message="Fething data from server failed!" />
       ) : (
         <Fragment>

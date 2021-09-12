@@ -18,9 +18,8 @@ const withAjax = (WrappedComponent, axios, errInfo) =>
         },
         (err) => {
           this.setState({ loading: false });
-          if (err.response && errInfo) {
-            console.log(err.response);
-            if (err.response.data.errCode !== errInfo.errCode) {
+          if (err.response) {
+            if (errInfo && err.response.data.errCode !== errInfo.errCode) {
               this.setState({ err: true });
             }
           } else {
