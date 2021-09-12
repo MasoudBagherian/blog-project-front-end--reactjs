@@ -9,14 +9,14 @@
     top: 1rem;
     color: $color-tritiary;
     .overlay {
-      background-color: var(--color-tritiary);
+      background-color: $color-tritiary;
     }
   }
   &--edit {
     top: 6rem;
     color: $color-success;
     .overlay {
-      background-color: var(--color-success);
+      background-color: $color-success;
     }
   }
   &--profile {

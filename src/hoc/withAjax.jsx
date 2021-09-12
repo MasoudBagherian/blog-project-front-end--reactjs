@@ -18,12 +18,16 @@ const withAjax = (WrappedComponent, axios, errInfo) =>
         },
         (err) => {
           this.setState({ loading: false });
-          if (err.response) {
-            if (errInfo && err.response.data.errCode !== errInfo.errCode) {
+          if (!errInfo) {
+            this.setState({ err: true });
+          } else {
+            if (err.response) {
+              if (err.response.data.errCode !== errInfo.errCode) {
+                this.setState({ err: true });
+              }
+            } else {
               this.setState({ err: true });
             }
-          } else {
-            this.setState({ err: true });
           }
           return Promise.reject(err);
         }
@@ -38,6 +42,7 @@ const withAjax = (WrappedComponent, axios, errInfo) =>
       loading: false,
     };
     render() {
+      console.log('errAjax', this.state.err);
       return (
         <Fragment>
           {this.state.loading ? <Loader /> : null}

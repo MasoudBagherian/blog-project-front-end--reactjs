@@ -133,7 +133,7 @@
   &__bottom {
     padding: 2rem;
     border-top: 1px solid #ccc;
-    background-color: $color-footer-bg;
+    background-color: darken($color-footer-bg, 40%);
   }
   &__btn {
     padding: 0.8rem 1.4rem;
