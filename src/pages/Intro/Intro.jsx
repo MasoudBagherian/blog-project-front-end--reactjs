@@ -1,23 +1,25 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import BookReader from '../../UI/icons/BookReader';
 import LoginIcon from '../../UI/icons/Login';
+import { useSelector } from 'react-redux';
 
 const Intro = (props) => {
+  const history = useHistory();
+  const role = useSelector((state) => state.auth.role);
+  const isAuth = useSelector((state) => state.auth.token !== null);
   useEffect(() => {
-    if (props.isAuth) {
-      if (props.role === 'admin') {
-        props.history.push('/admin');
+    if (isAuth) {
+      if (role === 'admin') {
+        history.push('/admin');
       }
-      if (props.role === 'blogger') {
-        props.history.push('/dashboard');
+      if (role === 'blogger') {
+        history.push('/dashboard');
       }
     }
   }, []);
   return (
     <section className="intro">
-      {/* <BookReader/> */}
       <div className="intro__header">
         <BookReader />
         <h1 className="intro__heading">BlogCenter</h1>
@@ -32,8 +34,5 @@ const Intro = (props) => {
     </section>
   );
 };
-const mapStateToProps = (state) => ({
-  isAuth: state.auth.token !== null,
-  role: state.auth.role,
-});
-export default connect(mapStateToProps)(Intro);
+
+export default Intro;

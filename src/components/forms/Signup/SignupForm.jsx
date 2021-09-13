@@ -16,6 +16,7 @@ import {
   SIGNUP_TOAST_CLOSE_TIME,
 } from '../../../globals';
 import withAjax from './../../../hoc/withAjax';
+import Loader from './../../../UI/Loader/Loader';
 
 const SignupForm = (props) => {
   const inputFileRef = useRef();
@@ -115,6 +116,9 @@ const SignupForm = (props) => {
   const [imgAlert, setImgAlert] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [fetchErr, setFetchErr] = useState(false);
+
   const confirmChangeHandler = (e) => {
     const value = e.target.value;
     const formInfo = { ...form };
@@ -165,9 +169,12 @@ const SignupForm = (props) => {
     for (const key in formInfo) {
       formData.append(key, formInfo[key].value);
     }
+    setLoading(true);
+    setFetchErr(false);
     axios
       .post('/auth/signup', formData)
       .then(({ data }) => {
+        setLoading(false);
         setShowToast(true);
         setTimeout(() => {
           history.push('/auth/login');
@@ -175,7 +182,9 @@ const SignupForm = (props) => {
         // console.log(data);
       })
       .catch((err) => {
-        if (err.response && err.response.data.errCode === 100) {
+        const res = err.response;
+        setLoading(false);
+        if (res && res.data.errCode === 100) {
           const response = err.response.data;
           const errMsgs = response.errMsgs;
           const formInfo = { ...form };
@@ -188,6 +197,8 @@ const SignupForm = (props) => {
             formInfo[key].touched = true;
           });
           setForm(formInfo);
+        } else {
+          setFetchErr(true);
         }
       });
   };
@@ -238,6 +249,10 @@ const SignupForm = (props) => {
   };
   return (
     <Fragment>
+      {loading ? <Loader /> : null}
+      <Modal show={fetchErr} backdropClickHandler={() => setFetchErr(false)}>
+        <ModalAlert message="There is something wrong with server" />
+      </Modal>
       {showToast ? (
         <Toast
           message="Registration successfully done"
@@ -308,7 +323,7 @@ const SignupForm = (props) => {
             inputBlurHandler={inputBlurHandler}
           />
           <button
-            disabled={!isFormValid()}
+            // disabled={!isFormValid()}
             className="btn-primary form__btn"
             type="submit">
             sign up
@@ -324,4 +339,4 @@ const SignupForm = (props) => {
   );
 };
 
-export default withAjax(SignupForm, axios, { errCode: 100 });
+export default SignupForm;

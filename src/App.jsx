@@ -1,14 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router-dom';
-// import { axiosInstance as axios } from './utils/axiosConfig';
 import Intro from './pages/Intro/Intro';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import Dashboard from './pages/Dashboard/Dashboard';
-import { connect } from 'react-redux';
 import { allActions } from './redux/actions/allActions';
 import Logout from './components/Logout';
-
+import { connect } from 'react-redux';
 class App extends Component {
   constructor(props) {
     super(props);

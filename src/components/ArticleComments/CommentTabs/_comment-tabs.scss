@@ -1,0 +1,46 @@
+.comment-tabs {
+  display: inline-flex;
+  color: $color-text-secondary;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+
+  &__item {
+    cursor: pointer;
+    padding: 1.4rem 1rem;
+    background-color: #ddd;
+    transition: 0.3s;
+    position: relative;
+    &::before,
+    &::after {
+      content: ' ';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      transition: 0.3s;
+      transform: scaleX(0);
+    }
+    &::before {
+      height: 5px;
+      top: -1px;
+      background-color: $color-secondary;
+    }
+    &::after {
+      bottom: 0px;
+      height: 1px;
+      background-color: #fff;
+      z-index: 2;
+    }
+    &.active::before,
+    &.active::after {
+      transform: scaleX(1);
+    }
+    &:not(:last-child) {
+      border-right: 1px solid #ccc;
+    }
+    &.active {
+      background-color: #fff;
+    }
+  }
+}

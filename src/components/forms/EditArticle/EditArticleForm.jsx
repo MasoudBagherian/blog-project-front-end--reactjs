@@ -1,57 +1,69 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react';
-import { useSelector } from 'react-redux';
-import Modal from '../../../UI/Modal/Modal';
-import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
-import FormControls from '../FormControls/FormControls';
-import FormGroup from '../FormGroup';
-import FormImage from '../FormImage/FormImage';
-import { checkImageName, checkValidity } from '../utils';
-import ArticleContent from './ArticleContent';
-
-import ArticleStatus from './ArticleStatus/ArticleStatus';
-import { axiosInstance as axios } from './../../../utils/axiosConfig';
-import Toast from './../../../UI/Toast/Toast';
 import {
-  ADD_ARTICLE_TOAST_CLOSE_TIME,
-  DEFAULT_ARTICLE_IMAGE,
+  EDIT_ARTICLE_TOAST_CLOSE_TIME,
   SERVER_IMAGE_FOLDER,
 } from '../../../globals';
-import withAjax from './../../../hoc/withAjax';
-
-import { useHistory } from 'react-router-dom';
+import FormImage from './../FormImage/FormImage';
+import Modal from './../../../UI/Modal/Modal';
+import ModalAlert from './../../../UI/Modal/ModalAlert/ModalAlert';
+import { checkImageName, checkValidity } from '../utils';
+import FormGroup from '../FormGroup';
+import ArticleStatus from './../AddArticle/ArticleStatus/ArticleStatus';
+import ArticleContent from '../AddArticle/ArticleContent';
+import { useSelector } from 'react-redux';
+import FormControls from '../FormControls/FormControls';
+import { useRouteMatch } from 'react-router-dom';
+import { axiosInstance as axios } from './../../../utils/axiosConfig';
 import Loader from './../../../UI/Loader/Loader';
-const AddArticleForm = (props) => {
+import Toast from './../../../UI/Toast/Toast';
+
+const EditArticleForm = ({ article }) => {
   const role = useSelector((state) => state.auth.role);
   const token = useSelector((state) => state.auth.token);
-  const history = useHistory();
+  const match = useRouteMatch();
+  const articleId = match.params.articleId;
+  const backRoutePrefix = match.path
+    .split('/:')[0]
+    .split('/')
+    .filter((_, index, arr) => index !== arr.length - 1)
+    .join('/');
+  const backRoute = `${backRoutePrefix}/${articleId}`;
+
   const inputFileRef = useRef();
   const imgRef = useRef();
   const editorRef = useRef();
-
   const submitBtnRef = useRef();
   const cancelBtnRef = useRef();
 
+  const [showModal, setShowModal] = useState(false);
+  const [imgAlert, setImgAlert] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+  const [fetchErr, setFetchErr] = useState(false);
+
+  const [showToast, setShowToast] = useState(false);
+
   const [form, setForm] = useState({
+    image: {
+      data: null,
+      isValid: true,
+    },
     title: {
-      value: '',
+      value: article.title,
       validation: {
         isRequired: true,
         minLength: 5,
         defaultErrMsg: 'Title is required',
         mainErrMsg: 'Title should have at least 5 characters',
       },
-      isValid: false,
-      touched: false,
-      focused: false,
-      errMsg: null,
-    },
-    image: {
       isValid: true,
-      data: null,
+      touched: false,
+      focused: true,
+      errMsg: null,
     },
     status: {
       isValid: true,
-      value: 'public',
+      value: article.status,
       focused: false,
     },
     content: {
@@ -66,15 +78,27 @@ const AddArticleForm = (props) => {
       },
     },
   });
-
-  const [loading, setLoading] = useState(false);
-  const [fetchErr, setFetchErr] = useState(false);
-
-  const [showModal, setShowModal] = useState(false);
-  const [imgAlert, setImgAlert] = useState(null);
-
-  const [showToast, setShowToast] = useState(false);
-
+  useEffect(() => {
+    editorRef.current.editor.setData(article.content);
+  }, []);
+  const clickIconHandler = () => {
+    inputFileRef.current.click();
+  };
+  const changeImageHandler = (e) => {
+    const formInfo = { ...form };
+    const image = e.target.files[0];
+    const photoUrl = URL.createObjectURL(image);
+    const { isValid, imageAlert } = checkImageName(image);
+    if (isValid) {
+      imgRef.current.src = photoUrl;
+      formInfo.image.data = image;
+      setForm(formInfo);
+      return;
+    }
+    setShowModal(true);
+    setImgAlert(imageAlert);
+    e.target.value = '';
+  };
   const inputChangeHandler = (e) => {
     const key = e.target.name;
     const value = e.target.value;
@@ -107,24 +131,6 @@ const AddArticleForm = (props) => {
     }
     setForm(formInfo);
   };
-  const clickIconHandler = () => {
-    inputFileRef.current.click();
-  };
-  const changeImageHandler = (e) => {
-    const formInfo = { ...form };
-    const image = e.target.files[0];
-    const photoUrl = URL.createObjectURL(image);
-    const { isValid, imageAlert } = checkImageName(image);
-    if (isValid) {
-      imgRef.current.src = photoUrl;
-      formInfo.image.data = image;
-      setForm(formInfo);
-      return;
-    }
-    setShowModal(true);
-    setImgAlert(imageAlert);
-    e.target.value = '';
-  };
   const selectFocusHandler = (e) => {
     const key = e.target.name;
     const formInfo = { ...form };
@@ -145,7 +151,7 @@ const AddArticleForm = (props) => {
     formInfo[key].focused = false;
     setForm(formInfo);
   };
-  const editorChangeHandler = (e) => {
+  const editorChangeHandler = () => {
     const editor = editorRef.current.editor;
     const value = editor.getData();
     const formInfo = { ...form };
@@ -167,37 +173,35 @@ const AddArticleForm = (props) => {
     }
     return true;
   };
-  const disableButtns = () => {
-    submitBtnRef.current.disabled = true;
-    cancelBtnRef.current.classList.add('disabled');
-  };
   const submitHandler = (e) => {
     e.preventDefault();
     const formInfo = { ...form };
     const formData = new FormData();
     formData.append('image', formInfo.image.data);
-    formData.append('title', formInfo.title.value.trim());
-    formData.append('status', formInfo.status.value);
-    formData.append('content', formInfo.content.value);
-    setShowToast(false);
+    for (const key in formInfo) {
+      if (key !== 'image') {
+        formData.append(key, formInfo[key].value);
+      }
+    }
     setLoading(true);
     setFetchErr(false);
+    setShowToast(false);
     axios
-      .post(`/articles?token=${token}`, formData)
+      .put(`/articles/${articleId}?token=${token}`, formData)
       .then(({ data }) => {
-        setShowToast(true);
+        // console.log(data);
         setLoading(false);
-        disableButtns();
+        setShowToast(true);
+        disableButtons();
         setTimeout(() => {
-          const path = role === 'admin' ? '/admin' : '/dashboard';
-          history.push(path);
-        }, ADD_ARTICLE_TOAST_CLOSE_TIME);
+          cancelBtnRef.current.click();
+        }, EDIT_ARTICLE_TOAST_CLOSE_TIME);
       })
       .catch((err) => {
-        const res = err.response;
         setLoading(false);
+        const res = err.response;
         if (res && res.data.errCode === 100) {
-          const errMsgs = err.response.data.errMsgs;
+          const errMsgs = res.data.errMsgs;
           const formInfo = { ...form };
           errMsgs.forEach((err) => {
             const key = err.param;
@@ -211,21 +215,24 @@ const AddArticleForm = (props) => {
         }
       });
   };
-  console.log(props);
+  const disableButtons = () => {
+    submitBtnRef.current.disabled = true;
+    cancelBtnRef.current.classList.add('disabled');
+  };
   return (
     <Fragment>
+      {showToast ? (
+        <Toast
+          message="Article updated successfully"
+          closeClickHandler={() => setShowToast(false)}
+          autoCloseTime={EDIT_ARTICLE_TOAST_CLOSE_TIME}
+          type="success"
+        />
+      ) : null}
       {loading ? <Loader /> : null}
       <Modal show={fetchErr} backdropClickHandler={() => setFetchErr(false)}>
         <ModalAlert message="There is something wrong with server" />
       </Modal>
-      {showToast ? (
-        <Toast
-          message="Article added successfully"
-          closeClickHandler={() => setShowToast(false)}
-          autoCloseTime={ADD_ARTICLE_TOAST_CLOSE_TIME}
-          type="success"
-        />
-      ) : null}
       <Modal show={showModal} backdropClickHandler={() => setShowModal(false)}>
         <ModalAlert message={imgAlert} />
       </Modal>
@@ -233,13 +240,13 @@ const AddArticleForm = (props) => {
         className="form form--secondary"
         autoComplete="off"
         onSubmit={submitHandler}>
-        <h2 className="form__heading">Add an article</h2>
+        <h2 className="form__heading">Edit your article</h2>
         <FormImage
           clickIconHandler={clickIconHandler}
           changeImageHandler={changeImageHandler}
           inputRef={inputFileRef}
           imgRef={imgRef}
-          imagePath={`${SERVER_IMAGE_FOLDER}/${DEFAULT_ARTICLE_IMAGE}`}
+          imagePath={`${SERVER_IMAGE_FOLDER}/${article.poster}`}
         />
         <FormGroup
           label="title"
@@ -262,7 +269,7 @@ const AddArticleForm = (props) => {
           formField={form.content}
         />
         <FormControls
-          cancelRoute={role === 'admin' ? '/admin' : '/dashboard'}
+          cancelRoute={backRoute}
           disabled={!isFormValid()}
           submitBtnRef={submitBtnRef}
           cancelBtnRef={cancelBtnRef}
@@ -272,4 +279,4 @@ const AddArticleForm = (props) => {
   );
 };
 
-export default AddArticleForm;
+export default EditArticleForm;

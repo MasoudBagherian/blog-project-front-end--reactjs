@@ -1,5 +1,5 @@
 .toast {
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   border-radius: 5px;
   overflow: hidden;
   position: fixed;
@@ -12,6 +12,8 @@
   display: flex;
   align-items: center;
   animation: toast-reveal 0.5s cubic-bezier(0.55, 0.15, 0.45, 0.85);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
+
   &--success {
     background-color: lighten($color-success, 20%);
     color: darken($color-success, 20%);
@@ -30,8 +32,8 @@
     display: flex;
     flex-shrink: 0;
     svg {
-      width: 4rem;
-      height: 4rem;
+      width: 5rem;
+      height: 5rem;
     }
   }
 
@@ -42,10 +44,11 @@
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
-    font-size: 1.8rem;
+    // font-size: 1.8rem;
   }
   &__message {
     font-weight: normal;
+    // font-family: sans-serif;
   }
   &__btn {
     display: flex;

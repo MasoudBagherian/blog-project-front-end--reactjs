@@ -8,6 +8,9 @@ import withAjax from './../../../hoc/withAjax';
 import Toast from './../../../UI/Toast/Toast';
 import { CHANGE_PASSWORD_TOAST_CLOSE_TIME } from '../../../globals';
 import { useHistory } from 'react-router-dom';
+import Modal from './../../../UI/Modal/Modal';
+import ModalAlert from './../../../UI/Modal/ModalAlert/ModalAlert';
+import Loader from './../../../UI/Loader/Loader';
 
 const ChangePasswordForm = (props) => {
   const history = useHistory();
@@ -16,6 +19,10 @@ const ChangePasswordForm = (props) => {
   const role = useSelector((state) => state.auth.role);
   const token = useSelector((state) => state.auth.token);
   const [showToast, setShowToast] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [fetchErr, setFetchErr] = useState(false);
+
   const [form, setForm] = useState({
     password: {
       value: '',
@@ -121,17 +128,22 @@ const ChangePasswordForm = (props) => {
       newPasswordConfirm: formInfo.newPasswordConfirm.value.trim(),
     };
     setShowToast(false);
+    setLoading(true);
+    setFetchErr(false);
     axios
       .put(`/users/change-password?token=${token}`, data)
       .then(({ data }) => {
         console.log(data);
+        setLoading(false);
         setShowToast(true);
         setTimeout(() => {
           history.push('/logout');
         }, CHANGE_PASSWORD_TOAST_CLOSE_TIME);
       })
       .catch((err) => {
-        if (err.response && err.response.data.errCode === 100) {
+        const res = err.response;
+        setLoading(false);
+        if (res && res.data.errCode === 100) {
           console.log(err.response.data.errMsgs);
           const errMsgs = err.response.data.errMsgs;
           const formInfo = { ...form };
@@ -143,6 +155,8 @@ const ChangePasswordForm = (props) => {
             formInfo[key].focused = false;
           });
           setForm(formInfo);
+        } else {
+          setFetchErr(true);
         }
       });
   };
@@ -157,6 +171,10 @@ const ChangePasswordForm = (props) => {
   };
   return (
     <Fragment>
+      {loading ? <Loader /> : null}
+      <Modal show={fetchErr} backdropClickHandler={() => setFetchErr(false)}>
+        <ModalAlert message="There is something wrong with server" />
+      </Modal>
       {showToast ? (
         <Toast
           message="Changing password successfully done"
@@ -205,4 +223,4 @@ const ChangePasswordForm = (props) => {
   );
 };
 
-export default withAjax(ChangePasswordForm, axios, { errCode: 100 });
+export default ChangePasswordForm;

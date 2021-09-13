@@ -1,0 +1,35 @@
+.comments {
+  position: relative;
+  margin-bottom: 4rem;
+  &::before,
+  &::after {
+    content: ' ';
+    position: absolute;
+    z-index: -1;
+    width: 70%;
+    height: 20px;
+    bottom: -5px;
+    display: block;
+    filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  &::before {
+    left: 0;
+
+    transform: skewX(-18deg) skewY(-2deg);
+  }
+  &::after {
+    right: 0;
+    transform: skewX(18deg) skewY(2deg);
+  }
+}
+.comment-list {
+}
+.comment-area {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 2rem;
+  position: relative;
+  top: -1px;
+  border-radius: 0 5px 3px 3px;
+}

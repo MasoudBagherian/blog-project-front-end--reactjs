@@ -42,7 +42,6 @@ const withAjax = (WrappedComponent, axios, errInfo) =>
       loading: false,
     };
     render() {
-      console.log('errAjax', this.state.err);
       return (
         <Fragment>
           {this.state.loading ? <Loader /> : null}

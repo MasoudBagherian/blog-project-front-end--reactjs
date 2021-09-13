@@ -94,8 +94,8 @@
     display: table;
     &:disabled,
     &.disabled {
-      cursor: not-allowed;
       background-color: #ccc;
+      pointer-events: none;
     }
   }
   &__controls {

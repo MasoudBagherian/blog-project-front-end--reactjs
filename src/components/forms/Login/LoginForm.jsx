@@ -8,7 +8,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { allActions } from './../../../redux/actions/allActions';
 import { Redirect } from 'react-router-dom';
 import { LOGIN_TOAST_CLOSE_TIME } from '../../../globals';
-import withAjax from './../../../hoc/withAjax';
+import Loader from './../../../UI/Loader/Loader';
+import Modal from './../../../UI/Modal/Modal';
+import ModalAlert from './../../../UI/Modal/ModalAlert/ModalAlert';
 
 const LoginForm = (props) => {
   const role = useSelector((state) => state.auth.role);
@@ -41,6 +43,10 @@ const LoginForm = (props) => {
   });
   const [redirect, setRedirect] = useState(false);
   const [authSuccess, setAuthSuccess] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [fetchErr, setFetchErr] = useState(false);
+
   const isFormValid = () => {
     const formInfo = { ...form };
     for (const key in formInfo) {
@@ -108,9 +114,12 @@ const LoginForm = (props) => {
       data[key] = formInfo[key].value.trim();
     }
     hideToast();
+    setLoading(true);
+    setFetchErr(false);
     axios
       .post('/auth/login', data)
       .then(({ data }) => {
+        setLoading(false);
         showSuccessToast();
         setAuthSuccess(true);
         dispatch(allActions.authFetchInfo(data));
@@ -120,9 +129,12 @@ const LoginForm = (props) => {
         submitBtnRef.current.disabled = true;
       })
       .catch((err) => {
-        console.log('err ', err.response);
-        if (err.response && err.response.data.errCode === 100) {
+        const res = err.response;
+        setLoading(false);
+        if (res && res.data.errCode === 100) {
           showErrorToast();
+        } else {
+          setFetchErr(true);
         }
       });
   };
@@ -142,6 +154,10 @@ const LoginForm = (props) => {
   }
   return (
     <Fragment>
+      {loading ? <Loader /> : null}
+      <Modal show={fetchErr} backdropClickHandler={() => setFetchErr(false)}>
+        <ModalAlert message="There is something wrong with server" />
+      </Modal>
       {dashboardRedirect}
       {toastInfo.show ? (
         <Toast
@@ -187,4 +203,4 @@ const LoginForm = (props) => {
   );
 };
 
-export default withAjax(LoginForm, axios, { errCode: 100 });
+export default LoginForm;

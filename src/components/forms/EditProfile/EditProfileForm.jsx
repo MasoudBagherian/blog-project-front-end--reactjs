@@ -17,6 +17,7 @@ import { allActions } from './../../../redux/actions/allActions';
 
 import { useHistory } from 'react-router-dom';
 import Toast from './../../../UI/Toast/Toast';
+import Loader from './../../../UI/Loader/Loader';
 
 const EditProfileForm = ({ user }) => {
   const role = useSelector((state) => state.auth.role);
@@ -95,6 +96,9 @@ const EditProfileForm = ({ user }) => {
   const [showModal, setShowModal] = useState(false);
   const [imgAlert, setImgAlert] = useState(null);
   const [showToast, setShowToast] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [fetchErr, setFetchErr] = useState(false);
   const clickIconHandler = () => {
     inputFileRef.current.click();
   };
@@ -164,17 +168,22 @@ const EditProfileForm = ({ user }) => {
         formData.append(key, formInfo[key].value);
       }
     }
+    setLoading(true);
+    setFetchErr(false);
     axios
       .put(`/users/edit-profile?token=${token}`, formData)
       .then(({ data }) => {
         setShowToast(true);
+        setLoading(false);
         setTimeout(() => {
           history.push(role === 'admin' ? '/admin' : '/dashboard');
         }, EDIT_PROFILE_TOAST_CLOSE_TIME);
         dispatch(allActions.userFetchInfo());
       })
       .catch((err) => {
-        if (err.response && err.response.data.errCode === 100) {
+        const res = err.response;
+        setLoading(false);
+        if (res && res.data.errCode === 100) {
           const errMsgs = err.response.data.errMsgs;
           const formInfo = { ...form };
           errMsgs.forEach((err) => {
@@ -184,11 +193,17 @@ const EditProfileForm = ({ user }) => {
             formInfo[key].isValid = false;
           });
           setForm(formInfo);
+        } else {
+          setFetchErr(true);
         }
       });
   };
   return (
     <Fragment>
+      {loading ? <Loader /> : null}
+      <Modal show={fetchErr} backdropClickHandler={() => setFetchErr(false)}>
+        <ModalAlert message="There is something wrong with server" />
+      </Modal>
       {showToast ? (
         <Toast
           message="Profile updated successfuly"
@@ -255,4 +270,4 @@ const EditProfileForm = ({ user }) => {
   );
 };
 
-export default withAjax(EditProfileForm, axios, { errCode: 100 });
+export default EditProfileForm;
