@@ -1,6 +1,7 @@
 .comments {
   position: relative;
-  margin-bottom: 4rem;
+  max-width: 70rem;
+  margin: 0 auto 4rem;
   &::before,
   &::after {
     content: ' ';
@@ -24,6 +25,10 @@
   }
 }
 .comment-list {
+  min-height: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .comment-area {
   border: 1px solid #ccc;

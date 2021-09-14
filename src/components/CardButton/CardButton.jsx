@@ -26,7 +26,9 @@ const CardButton = (props) => {
   return (
     <Fragment>
       {props.noLink ? (
-        <button className={`card-btn ${configButton(props.type).btnClass}`}>
+        <button
+          className={`card-btn ${configButton(props.type).btnClass}`}
+          onClick={props.clickHandler}>
           <div className="icon">{configButton(props.type).icon}</div>
           <div className="overlay">{configButton(props.type).overlayText}</div>
         </button>

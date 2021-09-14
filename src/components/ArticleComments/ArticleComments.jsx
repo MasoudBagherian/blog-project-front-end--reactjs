@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { SERVER_IMAGE_FOLDER } from '../../globals';
-import { DEFAULT_USER_AVATAR } from './../../globals';
+import React, { useState, useEffect } from 'react';
+
 import CommentList from './CommentList/CommentList';
 import CommentTabs from './CommentTabs/CommentTabs';
 import CommentForm from './CommentForm/CommentForm';
@@ -16,7 +15,7 @@ const ArticleComments = () => {
     commentArea = <CommentList />;
   }
   if (tabIndex === 2) {
-    commentArea = <CommentForm />;
+    commentArea = <CommentForm cancelCommentHanlder={() => setTabIndex(1)} />;
   }
   return (
     <section className="comments">
