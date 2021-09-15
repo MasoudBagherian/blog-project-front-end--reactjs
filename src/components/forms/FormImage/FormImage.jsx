@@ -1,5 +1,4 @@
 import React from 'react';
-import { DEFAULT_USER_AVATAR, SERVER_IMAGE_FOLDER } from '../../../globals';
 import Camera from '../../../UI/icons/Camera';
 const FormImage = (props) => {
   return (

@@ -18,7 +18,6 @@ import Loader from './../../../UI/Loader/Loader';
 import Toast from './../../../UI/Toast/Toast';
 
 const EditArticleForm = ({ article }) => {
-  const role = useSelector((state) => state.auth.role);
   const token = useSelector((state) => state.auth.token);
   const match = useRouteMatch();
   const articleId = match.params.articleId;

@@ -15,7 +15,6 @@ import {
   SERVER_IMAGE_FOLDER,
   SIGNUP_TOAST_CLOSE_TIME,
 } from '../../../globals';
-import withAjax from './../../../hoc/withAjax';
 import Loader from './../../../UI/Loader/Loader';
 
 const SignupForm = (props) => {
@@ -323,7 +322,7 @@ const SignupForm = (props) => {
             inputBlurHandler={inputBlurHandler}
           />
           <button
-            // disabled={!isFormValid()}
+            disabled={!isFormValid()}
             className="btn-primary form__btn"
             type="submit">
             sign up

@@ -99,4 +99,59 @@
     font-size: 1.4rem;
     color: $color-tritiary;
   }
+  &__btn {
+    margin-top: 2rem;
+    display: flex;
+    color: #fff;
+    align-items: stretch;
+    border-radius: 3px;
+    &:hover .icon {
+      color: #000;
+      background-color: darken($color-tritiary, 20%);
+    }
+    &:hover .icon::before {
+      border-left: 0.8rem solid darken($color-tritiary, 20%);
+    }
+    &:hover .text {
+      color: darken($color-tritiary, 20%);
+      background-color: #000;
+    }
+    .icon {
+      background-color: $color-tritiary;
+      background-color: #000;
+      color: darken($color-tritiary, 20%);
+      display: flex;
+      padding: 1rem 0.8rem;
+      align-items: center;
+      position: relative;
+      border-radius: 3px 0 0 3px;
+      transition: 0.3s;
+
+      &::before {
+        content: ' ';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-right: none;
+        border-left: 0.8rem solid #000;
+        border-top: 0.8rem solid transparent;
+        border-bottom: 0.8rem solid transparent;
+        top: 50%;
+        left: 100%;
+        transform: translate3d(0, -50%, 0);
+        transition: 0.3s;
+      }
+    }
+    .text {
+      background-color: darken($color-tritiary, 20%);
+      padding: 0.8rem 0.8rem 0.8rem 1.4rem;
+      color: #000;
+      border-radius: 0 3px 3px 0;
+      font-weight: bold;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+    }
+  }
 }

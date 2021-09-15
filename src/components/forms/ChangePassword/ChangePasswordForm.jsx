@@ -4,7 +4,6 @@ import { checkValidity } from './../utils';
 import { useSelector } from 'react-redux';
 import FormControls from '../FormControls/FormControls';
 import { axiosInstance as axios } from '../../../utils/axiosConfig';
-import withAjax from './../../../hoc/withAjax';
 import Toast from './../../../UI/Toast/Toast';
 import { CHANGE_PASSWORD_TOAST_CLOSE_TIME } from '../../../globals';
 import { useHistory } from 'react-router-dom';

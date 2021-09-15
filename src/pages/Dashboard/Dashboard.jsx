@@ -10,6 +10,8 @@ import { allActions } from '../../redux/actions/allActions';
 import ArticlePage from './ArticlePage/ArticlePage';
 import EditArticle from './EditArticle/EditArticle';
 import Articles from './Articles/Articles';
+import AllUsers from './AllUsers/AllUsers';
+import UserArticles from './UserArticles/UserArticles';
 
 const Dashboard = (props) => {
   const isAuth = useSelector((state) => state.auth.token !== null);
@@ -49,7 +51,9 @@ const Dashboard = (props) => {
           path={`${path}/articles/edit-article/:articleId`}
           component={EditArticle}
         />
-        <Route path={`${path}/articles/:articleId`} component={ArticlePage} />
+        <Route path={`${path}/articles/:articleId`}>
+          <ArticlePage />
+        </Route>
         <Route path={`${path}/public-articles/:articleId`}>
           <ArticlePage noEdit noDelete />
         </Route>
@@ -59,6 +63,14 @@ const Dashboard = (props) => {
           <ArticlePage noEdit />
         </Route>
         <Route path={`${path}/all-articles`} component={Articles} />
+        <Route path={`${path}/all-users`} component={AllUsers} />
+        <Route path={`${path}/user-articles/article/:articleId`}>
+          <ArticlePage noEdit />
+        </Route>
+        <Route
+          path={`${path}/user-articles/:userId`}
+          component={UserArticles}
+        />
       </Switch>
     </Fragment>
   );

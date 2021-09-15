@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Fragment } from 'react';
+import React, { useState, useRef, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import Modal from '../../../UI/Modal/Modal';
 import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
@@ -16,7 +16,6 @@ import {
   DEFAULT_ARTICLE_IMAGE,
   SERVER_IMAGE_FOLDER,
 } from '../../../globals';
-import withAjax from './../../../hoc/withAjax';
 
 import { useHistory } from 'react-router-dom';
 import Loader from './../../../UI/Loader/Loader';
@@ -211,7 +210,6 @@ const AddArticleForm = (props) => {
         }
       });
   };
-  console.log(props);
   return (
     <Fragment>
       {loading ? <Loader /> : null}

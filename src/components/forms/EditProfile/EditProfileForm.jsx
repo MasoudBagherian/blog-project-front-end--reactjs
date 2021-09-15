@@ -12,7 +12,6 @@ import { checkValidity } from './../utils';
 import FormControls from '../FormControls/FormControls';
 import { useSelector, useDispatch } from 'react-redux';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
-import withAjax from './../../../hoc/withAjax';
 import { allActions } from './../../../redux/actions/allActions';
 
 import { useHistory } from 'react-router-dom';

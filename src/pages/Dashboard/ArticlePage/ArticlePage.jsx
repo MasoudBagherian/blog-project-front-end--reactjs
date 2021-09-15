@@ -18,10 +18,8 @@ const ArticlePage = (props) => {
   const token = useSelector((state) => state.auth.token);
   const match = useRouteMatch();
   const articleId = match.params.articleId;
-  console.log(match);
   const [article, setArticle] = useState(null);
   const [author, setAuthor] = useState(null);
-  const [comments, setComments] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [fetchSuccess, setFetchSuccess] = useState(false);
@@ -34,7 +32,6 @@ const ArticlePage = (props) => {
     axios
       .get(`/articles/${articleId}?token=${token}`)
       .then(({ data }) => {
-        // console.log(data);
         const { title, content, date, image: poster } = data.article;
         const { firstname, lastname, avatar } = data.author;
         setArticle({ title, content, date, poster });

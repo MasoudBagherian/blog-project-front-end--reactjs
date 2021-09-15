@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState, Fragment } from 'react';
 
-import moment from 'moment';
-
 import {
   SERVER_IMAGE_FOLDER,
   DELETE_ARTICLE_TOAST_CLOSE_TIME,
@@ -17,6 +15,7 @@ import { axiosInstance as axios } from '../../../../utils/axiosConfig';
 
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { formatDate } from './../../../../utils/formatDate';
 
 const FullArticle = ({ article, author, noEdit, noDelete }) => {
   const token = useSelector((state) => state.auth.token);
@@ -26,7 +25,6 @@ const FullArticle = ({ article, author, noEdit, noDelete }) => {
   const editRoutePrefix = match.path.split('/:')[0];
   const articleId = match.params.articleId;
   const editRoute = `${editRoutePrefix}/edit-article/${articleId}`;
-  const redirectRoute = role === 'admin' ? '/admin' : '/dashboard';
   const contentRef = useRef();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -50,7 +48,7 @@ const FullArticle = ({ article, author, noEdit, noDelete }) => {
         } else {
           showSuccessToast();
           setTimeout(() => {
-            history.push(redirectRoute);
+            history.goBack();
           }, DELETE_ARTICLE_TOAST_CLOSE_TIME);
         }
       })
@@ -104,7 +102,7 @@ const FullArticle = ({ article, author, noEdit, noDelete }) => {
       </Modal>
       <div className="article">
         <div className="article__image">
-          <img src={`${SERVER_IMAGE_FOLDER}/${article.poster}`} />
+          <img src={`${SERVER_IMAGE_FOLDER}/${article.poster}`} alt="" />
         </div>
         {/* <div className="article__detail">
         <div className="article__views">
@@ -117,7 +115,7 @@ const FullArticle = ({ article, author, noEdit, noDelete }) => {
       </div> */}
         <div className="article__header">
           <div className="article__avatar">
-            <img src={`${SERVER_IMAGE_FOLDER}/${author.avatar}`} />
+            <img src={`${SERVER_IMAGE_FOLDER}/${author.avatar}`} alt="" />
           </div>
 
           <div className="article__info">
@@ -128,10 +126,7 @@ const FullArticle = ({ article, author, noEdit, noDelete }) => {
             </div>
             <div className="date date--flex">
               Published at
-              <span className="date__time">
-                {' '}
-                {moment(article.date).format('MMMM Do YYYY h:mm a')}
-              </span>
+              <span className="date__time"> {formatDate(article.date)}</span>
             </div>
           </div>
         </div>

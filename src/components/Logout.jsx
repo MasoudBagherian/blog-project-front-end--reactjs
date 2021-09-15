@@ -7,6 +7,7 @@ const Logout = (props) => {
   useEffect(() => {
     dispatch(allActions.authLogout());
   }, []);
+
   return <Redirect to="/auth/login" />;
 };
 

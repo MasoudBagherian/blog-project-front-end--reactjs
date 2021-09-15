@@ -9,7 +9,6 @@ const Articles = (props) => {
   const match = useRouteMatch();
   const page = match.path.split('/').filter((el) => el !== '')[1];
   const history = useHistory();
-  console.log(match);
   useEffect(() => {
     if (role === 'admin' && page === 'public-articles') {
       history.push('/admin/all-articles');

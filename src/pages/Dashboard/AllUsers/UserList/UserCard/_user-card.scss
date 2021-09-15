@@ -1,0 +1,133 @@
+.user-cards {
+  margin: 4rem -2rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+.user-card-wrapper {
+  width: 100%;
+  padding: 6rem 2rem 2rem;
+}
+@media (min-width: 42em) {
+  .user-card-wrapper {
+    width: 50%;
+  }
+}
+@media (min-width: 60em) {
+  .user-card-wrapper {
+    width: 33.33%;
+  }
+}
+.user-card {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  padding: 6rem 4rem 2rem;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.user-card__avatar {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate3d(-50%, -50%, 0);
+  border: 5px solid #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4), 2px 0 5px rgba(0, 0, 0, 0.4);
+}
+.user-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.3s;
+}
+.user-card__avatar:hover img {
+  transform: scale(1.2);
+}
+.user-card__info {
+  flex-grow: 1;
+}
+.user-card__list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 2rem 0;
+}
+.user-card__item {
+  padding: 0.5rem 1rem;
+  position: relative;
+  color: #333;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  align-items: baseline;
+  font-size: 1.4rem;
+}
+.user-card__item:not(:last-child) {
+  margin-bottom: 0.8rem;
+}
+.user-card__item::before,
+.user-card__item::after {
+  content: ' ';
+  position: absolute !important;
+  height: 100%;
+  top: 0;
+  background-color: $color-primary;
+}
+.user-card__item::before {
+  width: 4px;
+  left: -4px;
+}
+.user-card__item::after {
+  background-color: #98b5f5;
+  width: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 0 3px 3px 0;
+  transition: 0.3s linear;
+}
+.user-card__item:hover::after {
+  width: 100%;
+}
+.user-card__badge {
+  margin: 0 0.3rem;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  color: $color-primary;
+  font-weight: bold;
+}
+.user-card__item > * {
+  position: relative;
+  z-index: 2;
+}
+.user-card__value {
+  margin: 0 0.3rem;
+  /* text-align: center; */
+  font-style: italic;
+  font-weight: bold;
+  word-break: break-all;
+}
+.user-card__controls {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.5rem;
+}
+.user-card__btn {
+  padding: 0.8rem 1.4rem;
+  border-radius: 3px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-style: italic;
+  margin: 0.5rem;
+}
+.user-card__btn--articles {
+  background-color: $color-primary;
+}
+.user-card__btn--delete {
+  background-color: darken($color-tritiary, 20%);
+}

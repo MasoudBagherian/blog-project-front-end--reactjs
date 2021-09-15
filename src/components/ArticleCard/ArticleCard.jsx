@@ -1,13 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { SERVER_IMAGE_FOLDER } from '../../globals';
 import { excerptContent } from './../../utils/excerptContent';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import moment from 'moment';
+import { Link } from 'react-router-dom';
+
+import { formatDate } from './../../utils/formatDate';
+
 const ArticleCard = (props) => {
-  const match = useRouteMatch();
-  const path = match.path;
-  const role = useSelector((state) => state.auth.role);
   const excerptRef = useRef();
   useEffect(() => {
     excerptRef.current.innerHTML = excerptContent(props.content, 30);
@@ -18,7 +16,7 @@ const ArticleCard = (props) => {
       <div className="article-card">
         <div className="article-card__top">
           {props.status.toLowerCase() === 'private' ? (
-            <div class="article-card__badge">private</div>
+            <div className="article-card__badge">private</div>
           ) : null}
           <div className="article-card__avatar">
             <img src={`${SERVER_IMAGE_FOLDER}/${props.avatar}`} alt="" />
@@ -34,10 +32,7 @@ const ArticleCard = (props) => {
             </div>
             <div className="date">
               Published at
-              <span className="date__time">
-                {' '}
-                {moment(props.date).format('MMMM Do YYYY h:mm a')}
-              </span>
+              <span className="date__time"> {formatDate(props.date)}</span>
             </div>
             <h3 className="article-card__title">{props.title}</h3>
           </div>

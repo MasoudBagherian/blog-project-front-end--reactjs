@@ -1,17 +1,20 @@
 import React, { Fragment } from 'react';
 import ArticleCard from '../../../../components/ArticleCard/ArticleCard';
-import LabelSecondary from '../../../../UI/labels/LabelSecondary';
 import AlertPrimary from '../../../../UI/alerts/AlertPrimary';
 import { useRouteMatch } from 'react-router-dom';
 
-const ProfileArticleList = ({ articles, firstname, lastname, avatar }) => {
+const ProfileArticleList = ({
+  articles,
+  firstname,
+  lastname,
+  avatar,
+  btnRoutePrefix,
+  alertMessage,
+}) => {
   const match = useRouteMatch();
   return (
     <Fragment>
-      <LabelSecondary label="your articles" />
-      {!articles.length ? (
-        <AlertPrimary message="You have no article. You can click the plus button at the right bottom corner of the page to write an article" />
-      ) : null}
+      {!articles.length ? <AlertPrimary message={alertMessage} /> : null}
       <section className="article-cards">
         {articles.map((article) => (
           <ArticleCard
@@ -23,7 +26,7 @@ const ProfileArticleList = ({ articles, firstname, lastname, avatar }) => {
             firstname={firstname}
             lastname={lastname}
             avatar={avatar}
-            btnRoute={`${match.path}/articles/${article._id}`}
+            btnRoute={`${btnRoutePrefix}/${article._id}`}
             status={article.status}
           />
         ))}
