@@ -9,6 +9,7 @@ import ChangePassword from './ChangePassword/ChangePassword';
 import { allActions } from '../../redux/actions/allActions';
 import ArticlePage from './ArticlePage/ArticlePage';
 import EditArticle from './EditArticle/EditArticle';
+import Articles from './Articles/Articles';
 
 const Dashboard = (props) => {
   const isAuth = useSelector((state) => state.auth.token !== null);
@@ -49,6 +50,15 @@ const Dashboard = (props) => {
           component={EditArticle}
         />
         <Route path={`${path}/articles/:articleId`} component={ArticlePage} />
+        <Route path={`${path}/public-articles/:articleId`}>
+          <ArticlePage noEdit noDelete />
+        </Route>
+        <Route path={`${path}/public-articles`} component={Articles} />
+
+        <Route path={`${path}/all-articles/:articleId`}>
+          <ArticlePage noEdit />
+        </Route>
+        <Route path={`${path}/all-articles`} component={Articles} />
       </Switch>
     </Fragment>
   );

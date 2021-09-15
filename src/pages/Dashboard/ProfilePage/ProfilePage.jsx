@@ -6,7 +6,7 @@ import { BiPlusMedical as PlusIcon } from 'react-icons/bi';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { axiosInstance as axios } from './../../../utils/axiosConfig';
 import { useSelector } from 'react-redux';
-import ArticleList from './../../../components/ArticleList/ArticleList';
+import ProfileArticleList from './ProfileArticleList/ProfileArticleList';
 import withAjax from './../../../hoc/withAjax';
 import AlertPrimary from './../../../UI/alerts/AlertPrimary';
 
@@ -48,7 +48,7 @@ const ProfilePage = (props) => {
       ) : (
         <Fragment>
           <ProfileCard user={user} />
-          <ArticleList
+          <ProfileArticleList
             articles={articles}
             firstname={user.firstname}
             lastname={user.lastname}

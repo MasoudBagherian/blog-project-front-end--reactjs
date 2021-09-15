@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react';
-import LabelPrimary from './../../../UI/labels/LabelPrimary';
-import { axiosInstance as axios } from './../../../utils/axiosConfig';
+
+import { ADD_COMMENT_TOAST_CLOSE_TIME } from './../../../../../globals';
+
+import LabelPrimary from './../../../../../UI/labels/LabelPrimary';
+import Modal from './../../../../../UI/Modal/Modal';
+import ModalAlert from './../../../../../UI/Modal/ModalAlert/ModalAlert';
+import Loader from './../../../../../UI/Loader/Loader';
+import Toast from './../../../../../UI/Toast/Toast';
+
 import { useSelector } from 'react-redux';
-import Modal from '../../../UI/Modal/Modal';
-import ModalAlert from '../../../UI/Modal/ModalAlert/ModalAlert';
-import Loader from './../../../UI/Loader/Loader';
 import { useRouteMatch } from 'react-router-dom';
-import { ADD_COMMENT_TOAST_CLOSE_TIME } from '../../../globals';
-import Toast from './../../../UI/Toast/Toast';
+
+import { axiosInstance as axios } from './../../../../../utils/axiosConfig';
 
 const CommentForm = (props) => {
   const token = useSelector((state) => state.auth.token);

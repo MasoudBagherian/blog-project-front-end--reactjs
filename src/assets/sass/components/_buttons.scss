@@ -8,7 +8,7 @@
   background-color: $color-warning;
 }
 .btn-danger {
-  background-color: $color-tritiary;
+  background-color: darken($color-tritiary, 20%);
 }
 .add-btn {
   position: fixed;

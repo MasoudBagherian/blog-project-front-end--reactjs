@@ -1,20 +1,24 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import Main from './../../../hoc/Main';
-import { useRouteMatch } from 'react-router-dom';
-import FullArticle from '../../../components/FullArticle/FullArticle';
-import { axiosInstance as axios } from './../../../utils/axiosConfig';
-import { useSelector } from 'react-redux';
+
 import Loader from './../../../UI/Loader/Loader';
 import Modal from './../../../UI/Modal/Modal';
 import ModalAlert from './../../../UI/Modal/ModalAlert/ModalAlert';
-import withAjax from './../../../hoc/withAjax';
 import AlertPrimary from './../../../UI/alerts/AlertPrimary';
-import ArticleComments from '../../../components/ArticleComments/ArticleComments';
+
+import Main from './../../../hoc/Main';
+import FullArticle from './FullArticle/FullArticle';
+import ArticleComments from './ArticleComments/ArticleComments';
+
+import { useSelector } from 'react-redux';
+import { useRouteMatch } from 'react-router-dom';
+
+import { axiosInstance as axios } from './../../../utils/axiosConfig';
 
 const ArticlePage = (props) => {
   const token = useSelector((state) => state.auth.token);
-
   const match = useRouteMatch();
+  const articleId = match.params.articleId;
+  console.log(match);
   const [article, setArticle] = useState(null);
   const [author, setAuthor] = useState(null);
   const [comments, setComments] = useState(null);
@@ -23,8 +27,6 @@ const ArticlePage = (props) => {
   const [fetchSuccess, setFetchSuccess] = useState(false);
   const [fetchErr, setFetchErr] = useState(false);
   useEffect(() => {
-    const articleId = match.params.articleId;
-
     setFetchEnd(false);
     setFetchSuccess(false);
     setLoading(true);
@@ -54,7 +56,12 @@ const ArticlePage = (props) => {
     if (fetchSuccess) {
       fullArticle = (
         <Fragment>
-          <FullArticle article={article} author={author} />
+          <FullArticle
+            article={article}
+            author={author}
+            noEdit={props.noEdit}
+            noDelete={props.noDelete}
+          />
           <ArticleComments />
         </Fragment>
       );

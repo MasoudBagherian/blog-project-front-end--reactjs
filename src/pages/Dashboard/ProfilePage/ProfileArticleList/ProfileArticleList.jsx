@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
-import ArticleCard from '../ArticleCard/ArticleCard';
-import LabelSecondary from './../../UI/labels/LabelSecondary';
-import AlertPrimary from '../../UI/alerts/AlertPrimary';
+import ArticleCard from '../../../../components/ArticleCard/ArticleCard';
+import LabelSecondary from '../../../../UI/labels/LabelSecondary';
+import AlertPrimary from '../../../../UI/alerts/AlertPrimary';
+import { useRouteMatch } from 'react-router-dom';
 
-const ArticleList = ({ articles, firstname, lastname, avatar }) => {
-  // console.log(articles);
+const ProfileArticleList = ({ articles, firstname, lastname, avatar }) => {
+  const match = useRouteMatch();
   return (
     <Fragment>
       <LabelSecondary label="your articles" />
@@ -22,7 +23,8 @@ const ArticleList = ({ articles, firstname, lastname, avatar }) => {
             firstname={firstname}
             lastname={lastname}
             avatar={avatar}
-            id={article._id}
+            btnRoute={`${match.path}/articles/${article._id}`}
+            status={article.status}
           />
         ))}
       </section>
@@ -30,4 +32,4 @@ const ArticleList = ({ articles, firstname, lastname, avatar }) => {
   );
 };
 
-export default ArticleList;
+export default ProfileArticleList;

@@ -1,6 +1,9 @@
 import React from 'react';
-import { SERVER_IMAGE_FOLDER, DEFAULT_USER_AVATAR } from '../../../../globals';
+
+import { SERVER_IMAGE_FOLDER } from './../../../../../../globals';
+
 import moment from 'moment';
+
 const Comment = (props) => {
   return (
     <div className="comment">

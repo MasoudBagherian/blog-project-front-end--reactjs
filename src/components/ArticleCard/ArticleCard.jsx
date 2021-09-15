@@ -17,6 +17,9 @@ const ArticleCard = (props) => {
     <div className="article-card-wrapper">
       <div className="article-card">
         <div className="article-card__top">
+          {props.status.toLowerCase() === 'private' ? (
+            <div class="article-card__badge">private</div>
+          ) : null}
           <div className="article-card__avatar">
             <img src={`${SERVER_IMAGE_FOLDER}/${props.avatar}`} alt="" />
           </div>
@@ -44,9 +47,7 @@ const ArticleCard = (props) => {
           </div>
         </div>
         <div className="article-card__bottom">
-          <Link
-            to={`${path}/articles/${props.id}`}
-            className="article-card__btn">
+          <Link to={props.btnRoute} className="article-card__btn">
             read more
           </Link>
         </div>

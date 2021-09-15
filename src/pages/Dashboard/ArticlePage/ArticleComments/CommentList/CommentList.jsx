@@ -1,9 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react';
+
 import Comment from './Comment/Comment';
-import AlertPrimary from './../../../UI/alerts/AlertPrimary';
-import { axiosInstance as axios } from './../../../utils/axiosConfig';
+
+import AlertPrimary from './../../../../../UI/alerts/AlertPrimary';
+
 import { useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
+
+import { axiosInstance as axios } from './../../../../../utils/axiosConfig';
 
 const CommentList = () => {
   const token = useSelector((state) => state.auth.token);

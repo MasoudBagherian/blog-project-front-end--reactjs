@@ -25,6 +25,7 @@ const EditProfileForm = ({ user }) => {
   const dispatch = useDispatch();
 
   const history = useHistory();
+  const redirectRoute = role === 'admin' ? '/admin' : '/dashboard';
 
   const inputFileRef = useRef();
   const imgRef = useRef();
@@ -173,10 +174,10 @@ const EditProfileForm = ({ user }) => {
     axios
       .put(`/users/edit-profile?token=${token}`, formData)
       .then(({ data }) => {
-        setShowToast(true);
         setLoading(false);
+        setShowToast(true);
         setTimeout(() => {
-          history.push(role === 'admin' ? '/admin' : '/dashboard');
+          history.push(redirectRoute);
         }, EDIT_PROFILE_TOAST_CLOSE_TIME);
         dispatch(allActions.userFetchInfo());
       })
