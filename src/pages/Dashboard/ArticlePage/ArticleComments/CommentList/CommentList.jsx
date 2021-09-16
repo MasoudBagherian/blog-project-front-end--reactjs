@@ -50,14 +50,10 @@ const CommentList = () => {
       .delete(`/comments/${commentId}?token=${token}`)
       .then(({ data }) => {
         setDeleteLoading(false);
-        if (data.deletedComment) {
-          showSuccessToast();
-          setTimeout(() => {
-            fetchComments();
-          }, DELETE_COMMENT_TOAST_CLOSE_TIME);
-        } else {
-          showErrorToast();
-        }
+        showSuccessToast();
+        setTimeout(() => {
+          fetchComments();
+        }, DELETE_COMMENT_TOAST_CLOSE_TIME);
         console.log(data);
       })
       .catch((err) => {

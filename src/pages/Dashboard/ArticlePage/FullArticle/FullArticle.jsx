@@ -43,20 +43,17 @@ const FullArticle = ({ article, author, noEdit, noDelete }) => {
       .then(({ data }) => {
         setLoading(false);
         setShowModal(false);
-        if (!data.deletedArticle) {
-          showErrorToast();
-        } else {
-          showSuccessToast();
-          setTimeout(() => {
-            history.goBack();
-          }, DELETE_ARTICLE_TOAST_CLOSE_TIME);
-        }
+        showSuccessToast();
+        console.log(data);
+        setTimeout(() => {
+          history.goBack();
+        }, DELETE_ARTICLE_TOAST_CLOSE_TIME);
       })
       .catch((err) => {
         setLoading(false);
         setShowModal(false);
-        console.log(err.message);
         showErrorToast();
+        console.log(err.response);
       });
   };
   const closeToast = () => {

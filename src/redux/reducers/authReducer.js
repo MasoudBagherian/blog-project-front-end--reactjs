@@ -16,9 +16,10 @@ export const authReducer = (state = initState, action) => {
     return {
       token: null,
       userId: null,
+      role: null,
     };
   }
-  if (action.type === actionTypes.AUTH_RESET_INFO) {
+  if (action.type === actionTypes.AUTH_INIT) {
     return {
       token: localStorage.getItem('token'),
       userId: localStorage.getItem('userId'),

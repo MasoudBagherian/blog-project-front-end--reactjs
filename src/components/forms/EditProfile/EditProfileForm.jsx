@@ -103,6 +103,9 @@ const EditProfileForm = ({ user }) => {
     inputFileRef.current.click();
   };
   const changeImageHandler = (e) => {
+    if (!e.target.files.length) {
+      return;
+    }
     const formInfo = { ...form };
     const image = e.target.files[0];
     const photoUrl = URL.createObjectURL(image);

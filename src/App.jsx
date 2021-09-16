@@ -12,6 +12,9 @@ class App extends Component {
     super(props);
     props.resetAuthInfo();
   }
+  componentDidUpdate() {
+    console.log('app.js re-rendered');
+  }
   render() {
     return (
       <Fragment>

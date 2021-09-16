@@ -23,6 +23,7 @@ const Dashboard = (props) => {
   const match = useRouteMatch();
   const path = match.path;
   useEffect(() => {
+    console.log('dashboard re-rendered');
     if (!isAuth) {
       history.push('/');
     }
@@ -32,10 +33,10 @@ const Dashboard = (props) => {
     if (role === 'blogger' && path === '/admin') {
       history.push('/dashboard');
     }
-  }, []);
-  useEffect(() => {
     dispatch(allActions.userFetchInfo());
   });
+  // useEffect(() => {
+  // });
   return (
     <Fragment>
       <Header role={role} avatar={avatar} username={username} />

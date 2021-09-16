@@ -20,6 +20,9 @@ const AllUsers = () => {
   const [fetchEnd, setFetchEnd] = useState(false);
 
   useEffect(() => {
+    fetchUsers();
+  }, []);
+  const fetchUsers = () => {
     setLoading(true);
     setFetchErr(false);
     setFetchSuccess(false);
@@ -40,15 +43,14 @@ const AllUsers = () => {
         setFetchSuccess(false);
         setFetchEnd(true);
       });
-  }, []);
-
+  };
   let userList = null;
   if (fetchEnd) {
     if (fetchSuccess) {
       userList = (
         <Fragment>
           <LabelSecondary label="all users" />
-          <UserList users={users} />
+          <UserList users={users} fetchUsers={fetchUsers} />
         </Fragment>
       );
     } else {
