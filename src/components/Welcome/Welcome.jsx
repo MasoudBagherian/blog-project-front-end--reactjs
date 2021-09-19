@@ -2,11 +2,11 @@ import React from 'react';
 import { SERVER_IMAGE_FOLDER, DEFAULT_USER_AVATAR } from '../../globals';
 
 const Welcome = (props) => {
-  const image = props.avatar ? props.avatar : DEFAULT_USER_AVATAR;
+  const image = props.avatar ? `${SERVER_IMAGE_FOLDER}/${props.avatar}` : null;
   return (
     <div className="welcome">
       <div className="welcome__avatar">
-        <img src={`${SERVER_IMAGE_FOLDER}/${image}`} alt="" />
+        <img src={image} alt="" />
       </div>
       <h2 className="welcome__text">
         welcome

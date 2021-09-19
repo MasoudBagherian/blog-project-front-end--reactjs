@@ -33,10 +33,10 @@ const Dashboard = (props) => {
     if (role === 'blogger' && path === '/admin') {
       history.push('/dashboard');
     }
+  }, []);
+  useEffect(() => {
     dispatch(allActions.userFetchInfo());
   });
-  // useEffect(() => {
-  // });
   return (
     <Fragment>
       <Header role={role} avatar={avatar} username={username} />
